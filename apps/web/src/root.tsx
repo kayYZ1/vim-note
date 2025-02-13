@@ -21,7 +21,7 @@ export default function RootLayout() {
             </SheetTrigger>
             <SheetContent side="left" className="w-[200px] sm:w-[400px]">
               <div className="flex flex-col h-full p-4">
-                <div className="space-y-2 pb-6 border-b">
+                <div className="space-y-2 pb-4 border-b">
                   <SheetTitle className="text-2xl font-bold">vim-note</SheetTitle>
                   <SheetDescription className="text-sm text-muted-foreground">
                     Add folders & create notes

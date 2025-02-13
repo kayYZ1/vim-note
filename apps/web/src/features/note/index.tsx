@@ -7,16 +7,13 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+
+import { getCurrentDate } from "@/lib/utils";
 import EditableNote from "./components/editable-note";
 
 export default function Note() {
   const location = useLocation();
-
-  const todaysDate = new Date().toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
-  })
+  const todaysDate = getCurrentDate();
 
   const paths = location.pathname.split("/").filter((path) => path !== "")
 

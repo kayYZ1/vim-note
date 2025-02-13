@@ -1,28 +1,53 @@
-import { Folder, Bookmark, RefreshCw } from 'lucide-react'
+import { Folder, Bookmark, RefreshCw, StickyNote } from 'lucide-react'
 import { useLiveQuery } from "dexie-react-hooks"
 
-import { CreateFolder } from './create-folder'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+
 import { db } from '@/lib/db'
+import Menu from './menu'
 
 export default function Notes() {
 
   const folders = useLiveQuery(() => db.folders.toArray())
+  const notes = useLiveQuery(() => db.notes.toArray())
 
   return (
     <nav className="flex flex-col space-y-4 mt-6 flex-1">
       {/* Folders section */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between px-2 text-sm text-gray-500">
-          <span>Folders</span>
-          <CreateFolder />
+        <div className="flex items-center justify-between px-2 text-sm text-muted-foreground">
+          <span>Notes</span>
+          <Menu />
         </div>
         {/* Folders and notes */}
-        <div className="space-y-1">
+        <Accordion type="multiple" className="space-y-1">
           {
             folders?.map((folder) => (
-              <div className="flex items-center px-2 py-1 text-sm  rounded-md cursor-pointer" key={folder.id}>
-                <Folder className="h-4 w-4 mr-2" />
-                <span>{folder.name}</span>
+              <AccordionItem value={folder.name} key={folder.id} className="border-0">
+                <AccordionTrigger className="px-2 text-sm">
+                  <div className="flex items-center">
+                    <Folder className="h-4 w-4 mr-2" />
+                    {folder.name}
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="p-8">
+                  No notes added
+                </AccordionContent>
+              </AccordionItem>
+            ))
+          }
+        </Accordion>
+        <div className="space-y-2">
+          {
+            notes?.map((note) => (
+              <div className="flex items-center px-2 text-sm  rounded-md cursor-pointer" key={note.id}>
+                <StickyNote className="h-4 w-4 mr-2" />
+                <span>{note.title}</span>
               </div>
             ))
           }
@@ -30,7 +55,7 @@ export default function Notes() {
       </div>
       {/*Tweaks */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between px-2 text-sm text-gray-500">
+        <div className="flex items-center justify-between px-2 text-sm text-muted-foreground">
           <span>Tweaks</span>
         </div>
         <div className="space-y-1">
@@ -44,6 +69,6 @@ export default function Notes() {
           </div>
         </div>
       </div>
-    </nav>
+    </nav >
   )
 }

@@ -1,5 +1,4 @@
 import { useRef } from "react"
-import { Plus } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -16,7 +15,7 @@ import { Input } from "@/components/ui/input"
 
 import { db } from "@/lib/db"
 
-export function CreateFolder() {
+export default function CreateFolder() {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const onCreateFolder = async () => {
@@ -31,7 +30,9 @@ export function CreateFolder() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Plus className="h-4 w-4 cursor-pointer hover:text-gray-700" />
+        <p className="text-muted-foreground cursor-pointer px-2 py-1 text-sm hover:text-gray-400">
+          Create folder
+        </p>
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
@@ -58,6 +59,6 @@ export function CreateFolder() {
           </DialogClose>
         </DialogFooter>
       </DialogContent>
-    </Dialog >
+    </Dialog>
   )
 }
