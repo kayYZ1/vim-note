@@ -1,16 +1,40 @@
+import { useLocation } from "react-router"
+import { ArrowRight } from "lucide-react";
+
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import EditableNote from "./components/editable-note";
+
 export default function Note() {
+  const location = useLocation();
+
   const todaysDate = new Date().toLocaleDateString('en-GB', {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric'
   })
 
+  const paths = location.pathname.split("/").filter((path) => path !== "")
+
   return (
     <div className="py-4 px-2">
       <div className="flex justify-between">
-        <p className="text-muted-foreground">
-          Breadcrumbs (make this later)
-        </p>
+        <Breadcrumb>
+          <BreadcrumbList>
+            {paths.map((path, idx) => (
+              <BreadcrumbItem key={idx}>
+                {path}
+              </BreadcrumbItem>
+            ))}
+            <BreadcrumbSeparator>
+              <ArrowRight />
+            </BreadcrumbSeparator>
+          </BreadcrumbList>
+        </Breadcrumb>
         <p className="text-muted-foreground">
           {todaysDate}
         </p>
@@ -20,8 +44,11 @@ export default function Note() {
           Note title
         </h1>
         <h3 className="text-xl backdrop-opacity-95">
-          Note loose description
+          Loose note description
         </h3>
+        <div className="text-muted-foreground text-justify">
+          <EditableNote />
+        </div>
       </section>
     </div>
   )

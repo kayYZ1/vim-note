@@ -2,12 +2,14 @@ import { Outlet } from "react-router"
 import { Menu } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import ToggleTheme from "./components/toggle-theme"
+
+import Notes from "./features/notes"
 
 export default function RootLayout() {
   return (
-    <div className="min-h-screen bg-background font-primary">
+    <div className="min-h-screen bg-background font-primary" onContextMenu={(e) => e.preventDefault()}>
       {/* Header */}
       <header className="px-8 py-4">
         <div className="flex items-center justify-between px-4 py-3">
@@ -17,18 +19,23 @@ export default function RootLayout() {
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left">
-              {/* Add your sidebar content here */}
-              <nav className="flex flex-col space-y-4">
-                {/* Add navigation items */}
-              </nav>
+            <SheetContent side="left" className="w-[200px] sm:w-[400px]">
+              <div className="flex flex-col h-full p-4">
+                <div className="space-y-2 pb-6 border-b">
+                  <SheetTitle className="text-2xl font-bold">vim-note</SheetTitle>
+                  <SheetDescription className="text-sm text-muted-foreground">
+                    Add folders & create notes
+                  </SheetDescription>
+                </div>
+                <Notes />
+              </div>
             </SheetContent>
           </Sheet>
           <ToggleTheme />
         </div>
-      </header>
+      </header >
       {/* Main Content */}
-      <main className="container mx-auto max-w-4xl">
+      <main className="container mx-auto max-w-4xl" >
         <Outlet />
       </main>
     </div>
