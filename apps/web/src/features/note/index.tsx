@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 import { useLiveQuery } from "dexie-react-hooks";
 import { ArrowRight } from "lucide-react";
 
