@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { StickyNote } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -34,9 +35,10 @@ export default function CreateNote() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <p className="text-muted-foreground cursor-pointer px-2 py-1 text-sm hover:text-gray-400">
-          Create note
-        </p>
+        <span className="flex items-center gap-3 px-3 py-2 text-sm cursor-pointer transition-colors rounded-md">
+          <StickyNote className="h-5 w-5" />
+          Note
+        </span>
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
@@ -77,6 +79,6 @@ export default function CreateNote() {
           </DialogClose>
         </DialogFooter>
       </DialogContent>
-    </Dialog>
+    </Dialog >
   );
 }

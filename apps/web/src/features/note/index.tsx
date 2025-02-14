@@ -16,7 +16,6 @@ import EditableNote from "./components/editable-note";
 
 export default function Note() {
   const { id } = useParams<{ id: string }>();
-  const location = useLocation();
   const todaysDate = getCurrentDate();
 
   const note = useLiveQuery(async () => {
@@ -30,19 +29,16 @@ export default function Note() {
     }
   }, [id]);
 
-  const paths = location.pathname.split("/").filter((path) => path !== "");
-
   return (
     <div className="py-4 px-2">
       <div className="flex justify-between">
         <Breadcrumb>
           <BreadcrumbList>
-            {paths.map((path, idx) => (
-              <BreadcrumbItem key={idx}>{path}</BreadcrumbItem>
-            ))}
+            <BreadcrumbItem>Notes</BreadcrumbItem>
             <BreadcrumbSeparator>
               <ArrowRight />
             </BreadcrumbSeparator>
+            <BreadcrumbItem>{note?.title}</BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
         <p className="text-muted-foreground">{todaysDate}</p>

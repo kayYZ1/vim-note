@@ -12,14 +12,14 @@ import {
 import CreateFolder from "./create-folder";
 import CreateNote from "./create-note";
 
-export default function Menu() {
+export default function PrimaryMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Plus className="h-4 w-4 cursor-pointer hover:text-gray-500" />
+        <Plus className="h-4 w-4 cursor-pointer transition-transform hover:rotate-90 text-muted-foreground" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>Notes actions</DropdownMenuLabel>
+      <DropdownMenuContent className="w-40 p-1 shadow-lg rounded-lg border">
+        <DropdownMenuLabel className="font-semibold px-3 py-2">Create new</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <CreateFolder />
@@ -28,6 +28,6 @@ export default function Menu() {
           <CreateNote />
         </DropdownMenuItem>
       </DropdownMenuContent>
-    </DropdownMenu>
+    </DropdownMenu >
   );
 }

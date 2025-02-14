@@ -1,4 +1,4 @@
-import { Folder, Bookmark, RefreshCw, StickyNote } from "lucide-react";
+import { Bookmark, RefreshCw, StickyNote } from "lucide-react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useNavigate } from "react-router";
 
@@ -10,7 +10,8 @@ import {
 } from "@/components/ui/accordion";
 
 import { db } from "@/lib/db";
-import Menu from "./menu";
+import PrimaryMenu from "./primary-menu";
+import SecondaryMenu from "./secondary-menu";
 
 export default function Notes() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export default function Notes() {
       <div className="space-y-2">
         <div className="flex items-center justify-between px-2 text-sm text-muted-foreground">
           <span>Notes</span>
-          <Menu />
+          <PrimaryMenu />
         </div>
         {/* Folders and notes */}
         <Accordion type="multiple" className="space-y-1">
@@ -35,21 +36,16 @@ export default function Notes() {
               className="border-0"
             >
               <AccordionTrigger className="px-2 text-sm">
-                <div className="flex items-center">
-                  <Folder className="h-4 w-4 mr-2" />
-                  {folder.name}
-                </div>
+                <SecondaryMenu folderName={folder.name} />
               </AccordionTrigger>
               <AccordionContent className="p-8">
                 No notes added
               </AccordionContent>
             </AccordionItem>
           ))}
-        </Accordion>
-        <div className="space-y-2">
           {notes?.map((note) => (
             <div
-              className="flex items-center px-2 text-sm  rounded-md cursor-pointer"
+              className="flex items-center px-2 text-sm rounded-md cursor-pointer py-1"
               key={note.id}
               onClick={() => navigate(`/notes/${note.id}`)}
             >
@@ -57,7 +53,7 @@ export default function Notes() {
               <span>{note.title}</span>
             </div>
           ))}
-        </div>
+        </Accordion>
       </div>
       {/*Tweaks */}
       <div className="space-y-2">

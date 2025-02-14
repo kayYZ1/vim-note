@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { db } from "@/lib/db";
+import { Folder } from "lucide-react";
 
 export default function CreateFolder() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -30,9 +31,10 @@ export default function CreateFolder() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <p className="text-muted-foreground cursor-pointer px-2 py-1 text-sm hover:text-gray-400">
-          Create folder
-        </p>
+        <span className="flex items-center gap-3 px-3 py-2 text-sm cursor-pointer transition-colors rounded-md">
+          <Folder className="h-5 w-5" />
+          Folder
+        </span>
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
