@@ -4,6 +4,7 @@ import tseslint from "typescript-eslint";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginReact from "eslint-plugin-react";
 import globals from "globals";
+import prettierPlugin from "eslint-plugin-prettier";
 import { config as baseConfig } from "./base.js";
 
 /**
@@ -13,7 +14,6 @@ import { config as baseConfig } from "./base.js";
 export const config = [
   ...baseConfig,
   js.configs.recommended,
-  eslintConfigPrettier,
   ...tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
   {
@@ -28,12 +28,14 @@ export const config = [
   {
     plugins: {
       "react-hooks": pluginReactHooks,
+      prettier: prettierPlugin, // Ensure Prettier is included
     },
     settings: { react: { version: "detect" } },
     rules: {
       ...pluginReactHooks.configs.recommended.rules,
-      // React scope no longer necessary with new JSX transform.
       "react/react-in-jsx-scope": "off",
+      "prettier/prettier": "warn", // Run Prettier as an ESLint rule
     },
   },
+  eslintConfigPrettier, // Place Prettier last to disable conflicting rules
 ];

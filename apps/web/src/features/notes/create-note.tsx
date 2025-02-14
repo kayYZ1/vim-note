@@ -1,6 +1,6 @@
-import { useRef } from "react"
+import { useRef } from "react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -10,25 +10,26 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
-import { db } from "@/lib/db"
-import { getCurrentDate } from "@/lib/utils"
+import { db } from "@/lib/db";
+import { getCurrentDate } from "@/lib/utils";
 
 export default function CreateNote() {
-  const noteTitleRef = useRef<HTMLInputElement>(null)
-  const noteDescriptionRef = useRef<HTMLInputElement>(null)
+  const noteTitleRef = useRef<HTMLInputElement>(null);
+  const noteDescriptionRef = useRef<HTMLInputElement>(null);
 
   const onCreateNote = async () => {
-    if (!noteTitleRef.current?.value || !noteDescriptionRef.current?.value) return
+    if (!noteTitleRef.current?.value || !noteDescriptionRef.current?.value)
+      return;
 
     await db.notes.add({
       title: noteTitleRef.current.value,
       description: noteDescriptionRef.current.value,
-      date: getCurrentDate()
-    })
-  }
+      date: getCurrentDate(),
+    });
+  };
 
   return (
     <Dialog>
@@ -40,9 +41,7 @@ export default function CreateNote() {
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
           <DialogTitle>Note info</DialogTitle>
-          <DialogDescription>
-            Make it catchy :]
-          </DialogDescription>
+          <DialogDescription>Make it catchy :]</DialogDescription>
         </DialogHeader>
         <div className="grid gap-2">
           <div className="grid gap-2">
@@ -79,5 +78,5 @@ export default function CreateNote() {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

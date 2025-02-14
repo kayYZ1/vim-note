@@ -1,6 +1,6 @@
-import { useRef } from "react"
+import { useRef } from "react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -10,22 +10,22 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
-import { db } from "@/lib/db"
+import { db } from "@/lib/db";
 
 export default function CreateFolder() {
-  const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onCreateFolder = async () => {
-    if (!inputRef.current?.value) return
+    if (!inputRef.current?.value) return;
 
     await db.folders.add({
-      name: inputRef.current.value
-    })
-    console.log(inputRef.current.value)
-  }
+      name: inputRef.current.value,
+    });
+    console.log(inputRef.current.value);
+  };
 
   return (
     <Dialog>
@@ -37,18 +37,11 @@ export default function CreateFolder() {
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
           <DialogTitle>Folder name</DialogTitle>
-          <DialogDescription>
-            Make it catchy
-          </DialogDescription>
+          <DialogDescription>Make it catchy</DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2">
           <div className="grid flex-1 gap-2">
-            <Input
-              id="name"
-              type="text"
-              ref={inputRef}
-              required={true}
-            />
+            <Input id="name" type="text" ref={inputRef} required={true} />
           </div>
         </div>
         <DialogFooter className="sm:justify-end">
@@ -60,5 +53,5 @@ export default function CreateFolder() {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

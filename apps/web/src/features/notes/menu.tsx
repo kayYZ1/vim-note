@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react"
+import { Plus } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -7,10 +7,10 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
-import CreateFolder from "./create-folder"
-import CreateNote from "./create-note"
+import CreateFolder from "./create-folder";
+import CreateNote from "./create-note";
 
 export default function Menu() {
   return (
@@ -29,5 +29,5 @@ export default function Menu() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
