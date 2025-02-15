@@ -19,6 +19,16 @@ export default function Notes() {
   const folders = useLiveQuery(() => db.folders.toArray());
   const notes = useLiveQuery(() => db.notes.toArray());
 
+  const singleNotes = useLiveQuery(() => {
+    if (!folders || !notes) return [];
+
+    const folderNoteIds = new Set(
+      folders.flatMap(folder => folder.notes.map(note => note.id))
+    );
+
+    return notes.filter(note => !folderNoteIds.has(note.id));
+  }, [folders, notes]);
+
   return (
     <nav className="flex flex-col space-y-4 mt-6 flex-1">
       {/* Folders section */}
@@ -36,14 +46,23 @@ export default function Notes() {
               className="border-0"
             >
               <AccordionTrigger className="px-2 text-sm">
-                <SecondaryMenu folderName={folder.name} />
+                <SecondaryMenu {...folder} />
               </AccordionTrigger>
-              <AccordionContent className="p-8">
-                No notes added
+              <AccordionContent className="px-4">
+                {folder.notes.map(note => (
+                  <div
+                    className="flex items-center px-2 text-sm rounded-md cursor-pointer py-1"
+                    key={note.id}
+                    onClick={() => navigate(`/notes/${note.id}`)}
+                  >
+                    <StickyNote className="h-4 w-4 mr-2" />
+                    <span>{note.title}</span>
+                  </div>
+                ))}
               </AccordionContent>
             </AccordionItem>
           ))}
-          {notes?.map((note) => (
+          {singleNotes?.map((note) => (
             <div
               className="flex items-center px-2 text-sm rounded-md cursor-pointer py-1"
               key={note.id}

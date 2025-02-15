@@ -1,5 +1,5 @@
 export interface Note {
-  id: number;
+  id: string;
   date: string;
   title: string;
   description?: string;
@@ -7,7 +7,7 @@ export interface Note {
 }
 
 export interface Folder {
-  id: number;
+  id: string;
   name: string;
-  notes?: Note[];
+  notes: Note[];
 }

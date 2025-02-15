@@ -1,4 +1,6 @@
 import { useRef } from "react";
+import { Folder } from "lucide-react";
+import { nanoid } from "nanoid";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,9 +14,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-
 import { db } from "@/lib/db";
-import { Folder } from "lucide-react";
+
 
 export default function CreateFolder() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -23,7 +24,9 @@ export default function CreateFolder() {
     if (!inputRef.current?.value) return;
 
     await db.folders.add({
+      id: nanoid(),
       name: inputRef.current.value,
+      notes: []
     });
     console.log(inputRef.current.value);
   };

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, Outlet } from "react-router";
 import { useLiveQuery } from "dexie-react-hooks";
+import { nanoid } from "nanoid";
 
 import { db } from "@/lib/db";
 import { getCurrentDate } from "@/lib/utils";
@@ -26,6 +27,7 @@ export default function NoteGuard() {
     } else {
       (async () => {
         const noteId = await db.notes.add({
+          id: nanoid(),
           title: "Note title",
           description: "Loose note description",
           date: getCurrentDate(),

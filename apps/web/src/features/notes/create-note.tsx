@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { StickyNote } from "lucide-react";
+import { nanoid } from "nanoid"
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,20 +17,30 @@ import { Input } from "@/components/ui/input";
 
 import { db } from "@/lib/db";
 import { getCurrentDate } from "@/lib/utils";
+import { Folder } from "@/lib/interfaces";
 
-export default function CreateNote() {
+export default function CreateNote(folder: Folder | undefined) {
   const noteTitleRef = useRef<HTMLInputElement>(null);
   const noteDescriptionRef = useRef<HTMLInputElement>(null);
 
   const onCreateNote = async () => {
-    if (!noteTitleRef.current?.value || !noteDescriptionRef.current?.value)
+    if (!noteTitleRef.current?.value || !noteDescriptionRef.current?.value) {
       return;
+    }
 
-    await db.notes.add({
+    const note = {
+      id: nanoid(),
       title: noteTitleRef.current.value,
       description: noteDescriptionRef.current.value,
       date: getCurrentDate(),
-    });
+    }
+
+    await db.notes.add(note);
+
+    if (folder) {
+      folder.notes.push(note)
+      await db.folders.update(folder.id, { notes: folder.notes })
+    }
   };
 
   return (

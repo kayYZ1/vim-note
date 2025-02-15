@@ -12,8 +12,8 @@ const db = new Dexie("VimNoteInMemoryDb") as Dexie & {
 
 // Schema declaration:
 db.version(1).stores({
-  notes: "++id, date, title, description, content", // primary key "id" (for the runtime!)
-  folders: "++id, name, notes",
+  notes: "id, date, title, description, content",
+  folders: "id, name, notes",
 });
 
 export { db };

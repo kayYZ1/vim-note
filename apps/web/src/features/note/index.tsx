@@ -20,12 +20,12 @@ export default function Note() {
 
   const note = useLiveQuery(async () => {
     if (!id) return null;
-    return await db.notes.get(+id);
+    return await db.notes.get(id);
   }, [id]);
 
   useEffect(() => {
     if (id) {
-      localStorage.setItem("lastViewed", JSON.stringify(+id));
+      localStorage.setItem("lastViewed", JSON.stringify(id));
     }
   }, [id]);
 
