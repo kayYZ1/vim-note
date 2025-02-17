@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/accordion";
 
 import { db } from "@/lib/db";
-import PrimaryMenu from "./primary-menu";
-import SecondaryMenu from "./secondary-menu";
+import PrimaryMenu from "./components/primary-menu";
+import SecondaryMenu from "./components/secondary-menu";
 
 export default function Notes() {
   const navigate = useNavigate();
@@ -19,15 +19,11 @@ export default function Notes() {
   const folders = useLiveQuery(() => db.folders.toArray());
   const notes = useLiveQuery(() => db.notes.toArray());
 
-  const singleNotes = useLiveQuery(() => {
-    if (!folders || !notes) return [];
+  const folderNoteIds = new Set(
+    folders?.flatMap(folder => folder.notes.map(note => note.id))
+  );
 
-    const folderNoteIds = new Set(
-      folders.flatMap(folder => folder.notes.map(note => note.id))
-    );
-
-    return notes.filter(note => !folderNoteIds.has(note.id));
-  }, [folders, notes]);
+  const singleNotes = notes?.filter(note => !folderNoteIds.has(note.id));
 
   return (
     <nav className="flex flex-col space-y-4 mt-6 flex-1">
@@ -48,7 +44,7 @@ export default function Notes() {
               <AccordionTrigger className="px-2 text-sm">
                 <SecondaryMenu {...folder} />
               </AccordionTrigger>
-              <AccordionContent className="px-4">
+              <AccordionContent className="relative px-4 before:absolute before:left-3.5 before:top-0 before:bottom-0 before:w-[2px] before:bg-gray-400 before:opacity-10">
                 {folder.notes.map(note => (
                   <div
                     className="flex items-center px-2 text-sm rounded-md cursor-pointer py-1"

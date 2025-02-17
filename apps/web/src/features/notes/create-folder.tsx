@@ -28,7 +28,6 @@ export default function CreateFolder() {
       name: inputRef.current.value,
       notes: []
     });
-    console.log(inputRef.current.value);
   };
 
   return (

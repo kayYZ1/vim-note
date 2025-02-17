@@ -19,7 +19,7 @@ import { db } from "@/lib/db";
 import { getCurrentDate } from "@/lib/utils";
 import { Folder } from "@/lib/interfaces";
 
-export default function CreateNote(folder: Folder | undefined) {
+export default function CreateNote({ folder }: { folder: Folder | undefined }) {
   const noteTitleRef = useRef<HTMLInputElement>(null);
   const noteDescriptionRef = useRef<HTMLInputElement>(null);
 

@@ -7,7 +7,7 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 
-import CreateNote from "./create-note";
+import CreateNote from "../create-note";
 import { Folder } from "@/lib/interfaces";
 
 export default function SecondaryMenu(folder: Folder) {
@@ -21,7 +21,7 @@ export default function SecondaryMenu(folder: Folder) {
       </ContextMenuTrigger>
       <ContextMenuContent className="w-40 p-1 shadow-md rounded-lg border">
         <ContextMenuItem asChild>
-          <CreateNote {...folder} />
+          <CreateNote folder={folder} />
         </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>

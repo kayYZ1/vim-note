@@ -9,8 +9,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import CreateFolder from "./create-folder";
-import CreateNote from "./create-note";
+import CreateFolder from "../create-folder";
+import CreateNote from "../create-note";
 
 export default function PrimaryMenu() {
   return (
@@ -27,7 +27,7 @@ export default function PrimaryMenu() {
           <CreateFolder />
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <CreateNote />
+          <CreateNote folder={undefined} />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
