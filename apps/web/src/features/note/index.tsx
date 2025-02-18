@@ -31,7 +31,7 @@ export default function Note() {
   }, [id]);
 
   if (!note) {
-    return
+    return;
   }
 
   return (

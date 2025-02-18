@@ -1,5 +1,5 @@
-import { useRef } from "react"
-import { Edit } from "lucide-react"
+import { useRef } from "react";
+import { Edit } from "lucide-react";
 
 import {
   Dialog,
@@ -9,12 +9,12 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
-  DialogClose
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Note } from "@/lib/interfaces"
-import { db } from "@/lib/db"
+  DialogClose,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Note } from "@/lib/interfaces";
+import { db } from "@/lib/db";
 
 export default function EditNote({ note }: { note: Note }) {
   const noteTitleRef = useRef<HTMLInputElement>(null);
@@ -22,14 +22,14 @@ export default function EditNote({ note }: { note: Note }) {
 
   const onEditNote = async () => {
     if (!noteDescriptionRef.current && !noteTitleRef.current) {
-      return
+      return;
     }
 
     await db.notes.update(note.id, {
       title: noteTitleRef.current?.value,
-      description: noteDescriptionRef.current?.value
-    })
-  }
+      description: noteDescriptionRef.current?.value,
+    });
+  };
 
   return (
     <Dialog>
@@ -39,7 +39,9 @@ export default function EditNote({ note }: { note: Note }) {
       <DialogContent className="sm:max-w-sm top-60">
         <DialogHeader>
           <DialogTitle>Edit {note.title}</DialogTitle>
-          <DialogDescription>Change title & description of your note</DialogDescription>
+          <DialogDescription>
+            Change title & description of your note
+          </DialogDescription>
         </DialogHeader>
         <div className="grid gap-2">
           <div className="grid gap-2">
@@ -74,5 +76,5 @@ export default function EditNote({ note }: { note: Note }) {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
