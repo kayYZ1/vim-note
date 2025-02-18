@@ -16,7 +16,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { db } from "@/lib/db";
 
-
 export default function CreateFolder() {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -26,7 +25,7 @@ export default function CreateFolder() {
     await db.folders.add({
       id: nanoid(),
       name: inputRef.current.value,
-      notes: []
+      notes: [],
     });
   };
 
