@@ -69,7 +69,9 @@ export default function Notes() {
       .filter((folder) => folder.notes.some((note) => note.id === noteId))
       .first();
     if (sourceFolder) {
-      sourceFolder.notes = sourceFolder.notes.filter((note) => note.id !== noteId);
+      sourceFolder.notes = sourceFolder.notes.filter(
+        (note) => note.id !== noteId,
+      );
       await db.folders.put(sourceFolder);
     }
 
@@ -108,11 +110,15 @@ export default function Notes() {
                 <AccordionTrigger className="px-2 text-sm">
                   <SecondaryMenu {...folder} />
                 </AccordionTrigger>
-                <AccordionContent className="relative px-4 before:absolute before:left-3.5 before:top-0 before:bottom-0 before:w-[2px] before:bg-gray-400 before:opacity-10">
+                <AccordionContent className="relative px-4 before:absolute before:left-3.5 before:top-0 before:bottom-0 before:w-[2px] before:bg-gray-400 before:opacity-30">
                   <DroppableArea id={folder.id}>
-                    {folder.notes.length !== 0 ? folder.notes.map((note) => (
-                      <DraggableNote key={note.id} note={note} />
-                    )) : <p className="p-4">No notes</p>}
+                    {folder.notes.length !== 0 ? (
+                      folder.notes.map((note) => (
+                        <DraggableNote key={note.id} note={note} />
+                      ))
+                    ) : (
+                      <p className="p-4">No notes</p>
+                    )}
                   </DroppableArea>
                 </AccordionContent>
               </AccordionItem>
@@ -132,11 +138,10 @@ export default function Notes() {
             className={clsx(
               "border-2 shadow-lg opacity-90 pointer-events-none select-none",
               "border-gray-300 dark:border-gray-700",
-              "bg-white dark:bg-gray-800"
+              "bg-white dark:bg-gray-800",
             )}
           />
         )}
-
       </DragOverlay>
     </DndContext>
   );

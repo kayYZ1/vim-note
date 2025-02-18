@@ -48,7 +48,7 @@ export default function CreateNote({ folder }: { folder: Folder | undefined }) {
       <DialogTrigger asChild>
         <span className="flex items-center gap-3 px-3 py-2 text-sm cursor-pointer transition-colors rounded-md">
           <StickyNote className="h-5 w-5" />
-          Note
+          {folder ? "Create note" : "Note"}
         </span>
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">
