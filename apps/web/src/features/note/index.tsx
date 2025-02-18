@@ -13,6 +13,7 @@ import {
 import { getCurrentDate } from "@/lib/utils";
 import { db } from "@/lib/db";
 import EditableNote from "./components/editable-note";
+import EditNote from "./edit-note";
 
 export default function Note() {
   const { id } = useParams<{ id: string }>();
@@ -29,6 +30,10 @@ export default function Note() {
     }
   }, [id]);
 
+  if (!note) {
+    return
+  }
+
   return (
     <div className="py-4 px-2">
       <div className="flex justify-between">
@@ -38,14 +43,17 @@ export default function Note() {
             <BreadcrumbSeparator>
               <ArrowRight />
             </BreadcrumbSeparator>
-            <BreadcrumbItem>{note?.title}</BreadcrumbItem>
+            <BreadcrumbItem>{note.title}</BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
         <p className="text-muted-foreground">{todaysDate}</p>
       </div>
       <section className="flex flex-col py-4 gap-4">
-        <h1 className="font-semibold text-3xl">{note?.title}</h1>
-        <h3 className="text-xl backdrop-opacity-95">{note?.description}</h3>
+        <span className="flex justify-between">
+          <h1 className="font-semibold text-3xl">{note.title}</h1>
+          <EditNote note={note} />
+        </span>
+        <h3 className="text-xl backdrop-opacity-95">{note.description}</h3>
         <div className="text-muted-foreground text-justify">
           <EditableNote />
         </div>
