@@ -1,12 +1,16 @@
+import { useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import {
   DndContext,
   DragEndEvent,
+  DragStartEvent,
+  DragOverlay,
   closestCenter,
   useSensors,
   useSensor,
   PointerSensor,
 } from "@dnd-kit/core";
+import clsx from "clsx";
 
 import {
   Accordion,
@@ -14,14 +18,17 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
 import { db } from "@/lib/db";
+import { Note } from "@/lib/interfaces";
+
 import PrimaryMenu from "./components/primary-menu";
 import SecondaryMenu from "./components/secondary-menu";
 import DraggableNote from "./components/draggable-note";
 import DroppableArea from "./components/droppable-area";
 
 export default function Notes() {
+  const [activeNote, setActiveNote] = useState<Note | null>(null);
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -40,19 +47,29 @@ export default function Notes() {
   );
   const singleNotes = notes.filter((note) => !folderNoteIds.has(note.id));
 
+  const handleDragStart = (event: DragStartEvent) => {
+    const noteId = event.active.id as string;
+
+    const note = notes.find((n) => n.id === noteId);
+    if (!note) return;
+
+    setActiveNote(note);
+  };
+
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over) return;
+
+    setActiveNote(null);
 
     const noteId = active.id as string;
     const targetFolderId = over.id as string;
 
     const sourceFolder = await db.folders
-      .filter(folder => folder.notes.some(note => note.id === noteId))
+      .filter((folder) => folder.notes.some((note) => note.id === noteId))
       .first();
     if (sourceFolder) {
       sourceFolder.notes = sourceFolder.notes.filter((note) => note.id !== noteId);
-      console.log("Removing note from ", sourceFolder.name)
       await db.folders.put(sourceFolder);
     }
 
@@ -64,7 +81,6 @@ export default function Notes() {
       if (!note) return;
 
       targetFolder.notes.push(note);
-      console.log("Moving ", noteId, " to target ", targetFolder.name);
       await db.folders.put(targetFolder);
     }
   };
@@ -72,6 +88,7 @@ export default function Notes() {
   return (
     <DndContext
       collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       sensors={sensors}
     >
@@ -95,7 +112,7 @@ export default function Notes() {
                   <DroppableArea id={folder.id}>
                     {folder.notes.length !== 0 ? folder.notes.map((note) => (
                       <DraggableNote key={note.id} note={note} />
-                    )) : <p className="px-4 py-2">No notes</p>}
+                    )) : <p className="p-4">No notes</p>}
                   </DroppableArea>
                 </AccordionContent>
               </AccordionItem>
@@ -108,6 +125,19 @@ export default function Notes() {
           </Accordion>
         </div>
       </nav>
+      <DragOverlay>
+        {activeNote && (
+          <DraggableNote
+            note={activeNote}
+            className={clsx(
+              "border-2 shadow-lg opacity-90 pointer-events-none select-none",
+              "border-gray-300 dark:border-gray-700",
+              "bg-white dark:bg-gray-800"
+            )}
+          />
+        )}
+
+      </DragOverlay>
     </DndContext>
   );
 }

@@ -4,7 +4,7 @@ import { StickyNote } from "lucide-react";
 
 import { Note } from "@/lib/interfaces";
 
-export default function DraggableNote({ note }: { note: Note }) {
+export default function DraggableNote({ note, className = '' }: { note: Note, className?: string }) {
   const navigate = useNavigate();
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: note.id,
@@ -15,7 +15,7 @@ export default function DraggableNote({ note }: { note: Note }) {
       ref={setNodeRef}
       {...attributes}
       {...listeners}
-      className="flex items-center px-2 text-sm rounded-md cursor-pointer py-1"
+      className={`flex items-center px-2 text-sm rounded-md cursor-pointer py-1 ${className}`}
       onClick={() => navigate(`/notes/${note.id}`)}
       style={{
         transform: transform
