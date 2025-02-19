@@ -21,7 +21,7 @@ export default function DraggableNote({
       ref={setNodeRef}
       {...attributes}
       {...listeners}
-      className={`flex items-center px-2 text-sm rounded-md cursor-pointer py-1 ${className}`}
+      className={`flex items-center px-2 text-sm rounded-md cursor-pointer pt-1 ${className}`}
       onClick={() => navigate(`/notes/${note.id}`)}
       style={{
         transform: transform

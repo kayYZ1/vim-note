@@ -10,15 +10,12 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-import { getCurrentDate } from "@/lib/utils";
 import { db } from "@/lib/db";
 import EditableNote from "./components/editable-note";
 import EditNote from "./edit-note";
 
 export default function Note() {
   const { id } = useParams<{ id: string }>();
-  const todaysDate = getCurrentDate();
-
   const note = useLiveQuery(async () => {
     if (!id) return null;
     return await db.notes.get(id);
@@ -46,7 +43,7 @@ export default function Note() {
             <BreadcrumbItem>{note.title}</BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <p className="text-muted-foreground">{todaysDate}</p>
+        <p className="text-muted-foreground">{note.date}</p>
       </div>
       <section className="flex flex-col py-4 gap-4">
         <span className="flex justify-between">

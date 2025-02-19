@@ -1,32 +1,38 @@
 import { useRef, useEffect } from "react";
 
+import NoteActions from "./note-actions";
+
 export default function EditableNote() {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const textarea = textareaRef.current;
+    const div = divRef.current;
     const adjustHeight = () => {
-      if (textarea) {
-        textarea.style.height = "auto";
-        textarea.style.height = `${textarea.scrollHeight}px`;
+      if (div) {
+        div.style.height = "auto";
+        div.style.height = `${div.scrollHeight}px`;
       }
     };
 
-    textareaRef.current?.addEventListener("input", adjustHeight);
+    div?.addEventListener("input", adjustHeight);
     adjustHeight();
 
     return () => {
-      textareaRef.current?.removeEventListener("input", adjustHeight);
+      div?.removeEventListener("input", adjustHeight);
     };
   }, []);
 
   return (
     <div className="h-full w-full">
-      <textarea
-        ref={textareaRef}
-        defaultValue={"My first note!"}
-        className="w-full h-full max-h-full text-base rounded-md focus:outline-none focus:border-transparent resize-none overflow-hidden"
-      />
+      <NoteActions>
+        <div
+          ref={divRef}
+          contentEditable
+          suppressContentEditableWarning={true}
+          onInput={() => {}} // Ensures React does not interfere
+          className="w-full h-full max-h-full text-base rounded-md focus:outline-none border-2 resize-none overflow-hidden"
+        />
+      </NoteActions>
     </div>
   );
 }
