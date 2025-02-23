@@ -12,6 +12,7 @@ It also uses a turborepo for some reason
 - Tree like folder/note structure (x)
 - Adding md content into note
 - Generating md content via ai
+- Vim motions in text editor
 
 ## Images
 
