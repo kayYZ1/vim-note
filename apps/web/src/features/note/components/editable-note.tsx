@@ -1,38 +1,59 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState, KeyboardEvent } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
-import NoteActions from "./note-actions";
+import NoteActions from './note-actions';
 
 export default function EditableNote() {
-  const divRef = useRef<HTMLDivElement>(null);
+	const textAreaRef = useRef<HTMLTextAreaElement>(null);
+	const [content, setContent] = useState('**Hello** _World_!');
+	const [isEditing, setIsEditing] = useState(true);
 
-  useEffect(() => {
-    const div = divRef.current;
-    const adjustHeight = () => {
-      if (div) {
-        div.style.height = "auto";
-        div.style.height = `${div.scrollHeight}px`;
-      }
-    };
+	const handleKeyDown = (e: KeyboardEvent) => {
+		if (e.key === 'Tab') {
+			setIsEditing(false);
+		}
+	};
 
-    div?.addEventListener("input", adjustHeight);
-    adjustHeight();
+	useEffect(() => {
+		const textArea = textAreaRef.current;
+		const adjustHeight = () => {
+			if (textArea) {
+				textArea.style.height = 'auto';
+				textArea.style.height = `${textArea.scrollHeight}px`;
+			}
+		};
 
-    return () => {
-      div?.removeEventListener("input", adjustHeight);
-    };
-  }, []);
+		textArea?.addEventListener('input', adjustHeight);
+		adjustHeight();
 
-  return (
-    <div className="h-full w-full">
-      <NoteActions>
-        <div
-          ref={divRef}
-          contentEditable
-          suppressContentEditableWarning={true}
-          onInput={() => {}} // Ensures React does not interfere
-          className="w-full h-full max-h-full text-base rounded-md focus:outline-none border-2 resize-none overflow-hidden"
-        />
-      </NoteActions>
-    </div>
-  );
+		return () => {
+			textArea?.removeEventListener('input', adjustHeight);
+		};
+	}, []);
+
+	return (
+		<div
+			className='w-full h-full'
+			onKeyDown={handleKeyDown}>
+			<NoteActions>
+				{isEditing ? (
+					<textarea
+						ref={textAreaRef}
+						value={content}
+						onChange={(e) => setContent(e.target.value)}
+						onBlur={() => setIsEditing(false)}
+						autoFocus
+						className='w-full h-full min-h-400 text-base rounded-md focus:outline-none focus:border-transparent resize-none overflow-hidden'
+					/>
+				) : (
+					<div
+						className='prose prose-sm max-w-none'
+						onClick={() => setIsEditing(true)}>
+						<ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+					</div>
+				)}
+			</NoteActions>
+		</div>
+	);
 }
