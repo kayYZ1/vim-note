@@ -18,4 +18,5 @@ It also uses a turborepo for some reason
 ## Images
 
 ![vim-note](./assets/vim-note.png)
+![vim-note-insert](./assets/vim-note-insert.png)
 ![vim-note-sidebar](./assets/vim-note-sidebar.png)
