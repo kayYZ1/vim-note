@@ -102,11 +102,11 @@ export default function EditableNote({ noteId }: { noteId: string }) {
 							onChange={(e) => setContent(e.target.value)}
 							className='w-full h-full min-h-96 text-base focus:outline-none focus:border-transparent resize-none overflow-hidden break-words'
 							onKeyDown={handleKeyDown}
-							/*onBlur={async () => {
-                console.log("save on blur");
-                setIsEditing(false);
-                await db.notes.update(noteId, { content });
-              }}*/
+							onBlur={async () => {
+								console.log('save on blur');
+								setIsEditing(false);
+								await db.notes.update(noteId, { content });
+							}}
 						/>
 					) : (
 						<div className='prose prose-sm w-full break-words'>
