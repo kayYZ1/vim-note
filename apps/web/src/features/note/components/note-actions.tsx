@@ -1,3 +1,4 @@
+// NoteActions.tsx
 import { JSX } from "react";
 import { Brain, Trash, Image, Pencil } from "lucide-react";
 
@@ -8,17 +9,42 @@ import {
   ContextMenuShortcut,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
-export default function NoteActions({ children }: { children: JSX.Element }) {
+interface NoteActionsProps {
+  children: JSX.Element;
+  onGenerateAI?: () => void;
+}
+
+export default function NoteActions({
+  children,
+  onGenerateAI,
+}: NoteActionsProps) {
   return (
     <ContextMenu>
       <ContextMenuTrigger>{children}</ContextMenuTrigger>
       <ContextMenuContent className="w-64">
-        <ContextMenuItem inset>
-          Generate with AI
-          <ContextMenuShortcut>
-            <Brain className="h-4 w-4" />
-          </ContextMenuShortcut>
+        <ContextMenuItem inset onSelect={onGenerateAI}>
+          <span>Generate with AI</span>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <ContextMenuShortcut>
+                  <Brain className="h-4 w-4" />
+                </ContextMenuShortcut>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-wrap">
+                  Content written on the page will be your prompt
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </ContextMenuItem>
         <ContextMenuItem inset disabled>
           Insert image

@@ -7,13 +7,17 @@ import remarkBreaks from "remark-breaks";
 
 import { Toaster } from "@/components/ui/sonner";
 import { db } from "@/lib/db";
+import { streamLLMResponse } from "@/lib/ai/stream";
 
 import NoteActions from "./note-actions";
 import { mdComponents } from "./md-components";
 
 export default function EditableNote({ noteId }: { noteId: string }) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const abortRef = useRef<(() => void) | null>(null);
+
   const [content, setContent] = useState<string>();
+  const [isGenerating, setIsGenerating] = useState(false);
   const [isEditing, setIsEditing] = useState(true);
 
   useLiveQuery(async () => {
@@ -57,6 +61,31 @@ export default function EditableNote({ noteId }: { noteId: string }) {
     }
   }; //handle keys globally
 
+  const handleGenerateAI = () => {
+    if (isGenerating) {
+      abortRef.current?.();
+      setIsGenerating(false);
+      return;
+    }
+
+    setIsGenerating(true);
+    setContent("Generating...");
+
+    const prompt = `Expand on this: ${content} keep it relevant and concise.`;
+
+    abortRef.current = streamLLMResponse(
+      prompt,
+      (chunk) => {
+        setContent((prev) => (prev === "Generating..." ? chunk : prev + chunk));
+      },
+      () => {
+        setIsGenerating(false);
+        db.notes.update(noteId, { content });
+        toast.success("AI generation complete");
+      },
+    );
+  };
+
   useEffect(() => {
     const textArea = textAreaRef.current;
     const adjustHeight = () => {
@@ -79,6 +108,7 @@ export default function EditableNote({ noteId }: { noteId: string }) {
 
     return () => {
       document.removeEventListener("keydown", handleDocumentKeyDown);
+      abortRef.current?.();
     };
   }, []);
 
@@ -90,12 +120,16 @@ export default function EditableNote({ noteId }: { noteId: string }) {
 
   return (
     <div className="w-full h-full">
-      <NoteActions>
+      <NoteActions onGenerateAI={handleGenerateAI}>
         <div className="relative w-full">
           <div className="absolute top-0 right-0 text-xs rounded-bl-md z-10">
-            {isEditing ? "---INSERT MODE---" : "---PREVIEW MODE---"}
+            {isGenerating
+              ? "---GENERATING---"
+              : isEditing
+                ? "---INSERT MODE---"
+                : "---PREVIEW MODE---"}
           </div>
-          {isEditing ? (
+          {isEditing && !isGenerating ? (
             <textarea
               ref={textAreaRef}
               value={content}

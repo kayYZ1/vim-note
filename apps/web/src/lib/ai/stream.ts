@@ -3,13 +3,11 @@ export const streamLLMResponse = (
   onChunk: (chunk: string) => void,
   onComplete?: () => void,
 ) => {
-  const API_KEY = process.env.OPEN_ROUTER; //Temporary key
-  const MODEL_ID = "google/gemini-2.0-pro-exp-02-05:free"; // Free model on OpenRouter
+  const API_KEY = import.meta.env.VITE_OPEN_ROUTER;
+  const MODEL_ID = "google/gemini-2.0-pro-exp-02-05:free";
 
-  // Create an AbortController to allow cancellation
   const abortController = new AbortController();
 
-  // Start the streaming process
   (async () => {
     try {
       const response = await fetch(
@@ -76,17 +74,3 @@ export const streamLLMResponse = (
 
   return () => abortController.abort();
 };
-
-// Example usage:
-// const abort = streamLLMResponse(
-//   "Explain quantum computing briefly",
-//   (chunk) => {
-//     console.log("Received chunk:", chunk);
-//     // Update your UI here with the new chunk
-//   },
-//   () => console.log("Streaming complete"),
-//   (error) => console.error("Error:", error)
-// );
-//
-// To stop streaming early:
-// abort();
