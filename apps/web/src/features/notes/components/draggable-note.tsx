@@ -22,7 +22,7 @@ export default function DraggableNote({
       {...attributes}
       {...listeners}
       className={`flex items-center px-2 text-sm rounded-md cursor-pointer pt-1 ${className}`}
-      onClick={() => navigate(`/notes/${note.id}`)}
+      onClick={() => navigate(`/note/${note.id}`)}
       style={{
         transform: transform
           ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
