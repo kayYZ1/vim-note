@@ -16,9 +16,30 @@ import EditNote from './edit-note';
 
 export default function Note() {
 	const { id } = useParams<{ id: string }>();
-	const note = useLiveQuery(async () => {
-		if (!id) return null;
-		return await db.notes.get(id);
+
+	const noteWithFolderInfo = useLiveQuery(async () => {
+		if (!id) {
+			return null;
+		}
+
+		const note = await db.notes.get(id);
+		if (!note) {
+			return null;
+		}
+
+		const folders = await db.folders.toArray();
+		const folder = folders.find((folder) =>
+			folder.notes.some((n) => n.id === note.id)
+		);
+
+		if (!folder) {
+			return { note };
+		}
+
+		return {
+			note,
+			folder,
+		};
 	}, [id]);
 
 	useEffect(() => {
@@ -27,9 +48,11 @@ export default function Note() {
 		}
 	}, [id]);
 
-	if (!note) {
+	if (!noteWithFolderInfo?.note) {
 		return;
 	}
+
+	const { note, folder } = noteWithFolderInfo;
 
 	return (
 		<div className='py-4 px-2'>
@@ -40,6 +63,14 @@ export default function Note() {
 						<BreadcrumbSeparator>
 							<ArrowRight />
 						</BreadcrumbSeparator>
+						{folder && (
+							<>
+								<BreadcrumbItem>{folder.name}</BreadcrumbItem>
+								<BreadcrumbSeparator>
+									<ArrowRight />
+								</BreadcrumbSeparator>
+							</>
+						)}
 						<BreadcrumbItem>{note.title}</BreadcrumbItem>
 					</BreadcrumbList>
 				</Breadcrumb>

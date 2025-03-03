@@ -1,4 +1,3 @@
-// NoteActions.tsx
 import { JSX } from 'react';
 import { Brain, Trash, Image, Pencil } from 'lucide-react';
 
@@ -24,7 +23,7 @@ interface NoteActionsProps {
 
 export default function NoteActions({
 	children,
-	isGenerating,
+	//isGenerating,
 	onGenerateAI,
 }: NoteActionsProps) {
 	return (

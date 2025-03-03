@@ -70,13 +70,6 @@ export default function EditableNote({ noteId }: { noteId: string }) {
 		};
 	}, [isEditing]);
 
-	// Cleanup on unmount
-	useEffect(() => {
-		return () => {
-			cleanupAI();
-		};
-	}, []);
-
 	return (
 		<div className='w-full h-full'>
 			<NoteActions
