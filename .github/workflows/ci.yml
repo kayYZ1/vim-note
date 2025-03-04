@@ -24,7 +24,13 @@ jobs:
           cache: 'pnpm'
 
       - name: Install pnpm
-        run: corepack enable && pnpm install
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+          pnpm --version # Debugging step to check if pnpm is installed
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Run lint
         run: pnpm turbo run lint
