@@ -1,0 +1,36 @@
+name: CI Pipeline for Web
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    name: Lint, Format, Test, and Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        run: corepack enable && pnpm install
+
+      - name: Run lint
+        run: pnpm turbo run lint
+
+      - name: Run format check
+        run: pnpm turbo run format
+
+      - name: Run build
+        run: pnpm turbo run build
