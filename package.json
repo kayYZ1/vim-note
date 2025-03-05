@@ -1,19 +1,22 @@
 {
-  "name": "vim-note",
-  "private": true,
-  "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
-  },
-  "devDependencies": {
-    "prettier": "^3.5.0",
-    "turbo": "^2.4.1",
-    "typescript": "5.7.3"
-  },
-  "packageManager": "pnpm@9.0.0",
-  "engines": {
-    "node": ">=18"
-  }
+	"name": "vim-note",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "turbo build",
+		"preview": "turbo preview",
+		"dev": "turbo dev",
+		"lint": "turbo lint",
+		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
+		"test:e2e": "turbo run preview test:e2e --parallel"
+	},
+	"devDependencies": {
+		"prettier": "^3.5.0",
+		"turbo": "^2.4.1",
+		"typescript": "5.7.3"
+	},
+	"packageManager": "pnpm@9.0.0",
+	"engines": {
+		"node": ">=18"
+	}
 }
