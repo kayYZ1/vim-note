@@ -45,12 +45,3 @@ jobs:
 
       - name: Run Cypress tests
         run: pnpm test:e2e
-
-      - name: Upload Cypress artifacts
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-artifacts
-          path: |
-            cypress/screenshots/
-            cypress/videos/
