@@ -11,6 +11,7 @@
 		"test:e2e": "turbo run preview test:e2e --parallel"
 	},
 	"devDependencies": {
+		"cypress": "^14.1.0",
 		"prettier": "^3.5.0",
 		"turbo": "^2.4.1",
 		"typescript": "5.7.3"
