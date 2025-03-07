@@ -23,7 +23,7 @@ export default function EditableNote({ noteId }: { noteId: string }) {
 
 	const { isGenerating, generateContent, cleanup: cleanupAI } = useAI();
 
-	const { fileInputRef, isUploading, handleImageUpload, triggerImageUpload } =
+	const { fileInputRef, handleImageUpload, triggerImageUpload } =
 		useImageUpload({
 			onError: (message) => toast.error(message),
 		});

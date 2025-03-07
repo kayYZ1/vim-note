@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import { db } from '@/lib/db';
 
@@ -17,7 +17,6 @@ export function useImageUpload({
 	quality = 0.7,
 	onError = console.error,
 }: UploadOptions = {}) {
-	const [isUploading, setIsUploading] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	// Compress image using canvas
@@ -86,8 +85,6 @@ export function useImageUpload({
 		}
 
 		try {
-			setIsUploading(true);
-
 			// Check file size
 			if (file.size > maxFileSize) {
 				onError(
@@ -134,8 +131,6 @@ export function useImageUpload({
 			console.error('Image upload error:', error);
 			onError(`Failed to process image: ${error}`);
 			return null;
-		} finally {
-			setIsUploading(false);
 		}
 	};
 
@@ -146,7 +141,6 @@ export function useImageUpload({
 
 	return {
 		fileInputRef,
-		isUploading,
 		handleImageUpload,
 		triggerImageUpload,
 	};

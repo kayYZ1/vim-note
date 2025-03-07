@@ -3,9 +3,6 @@ name: Test Web App with Cypress
 on:
   schedule:
     - cron: '0 12 * * *' # Daily at 12:00 UTC
-  push:
-    branches:
-      - main
 
 jobs:
   test:
