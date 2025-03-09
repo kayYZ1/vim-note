@@ -10,9 +10,9 @@ It also uses a turborepo for some reason
 ## Features
 
 - Tree like folder/note structure (x)
-- Adding md content into note
-- Add images / drawing files into the note
-- Generating md content via ai
+- Adding md content into note (x)
+- Add local images (x) / tldraw
+- Generating md content via ai (x)
 - Vim motions in text editor
 
 ## Images
