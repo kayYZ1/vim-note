@@ -4,6 +4,7 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import remarkBreaks from "remark-breaks";
+import { NoteDrawing } from "./components/note-drawing";
 
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
@@ -12,6 +13,7 @@ import { useNote } from "./hooks/use-note";
 import { useAI } from "./hooks/use-ai";
 import { useShortcuts } from "./hooks/use-shortcuts";
 import { useImageUpload } from "./hooks/use-image-upload";
+import { useTldraw } from "./hooks/use-tldraw";
 import NoteActions from "./components/note-actions";
 import { mdComponents } from "./components/md-components";
 
@@ -20,15 +22,13 @@ export default function EditableNote({ noteId }: { noteId: string }) {
 
   const { content, setContent, isEditing, setIsEditing, saveNote, clearNote } =
     useNote(noteId);
-
   const { isGenerating, generateContent, cleanup: cleanupAI } = useAI();
-
+  const { isDrawing, setIsDrawing } = useTldraw();
   const { fileInputRef, handleImageUpload, triggerImageUpload } =
     useImageUpload({
       onError: (message) => toast.error(message),
     });
 
-  // Handle keyboard shortcuts
   const { handleKeyDown } = useShortcuts({
     onEscape: async () => {
       setIsEditing(false);
@@ -61,6 +61,7 @@ export default function EditableNote({ noteId }: { noteId: string }) {
       },
     );
   };
+
 
   const handleImageSelected = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -118,11 +119,22 @@ export default function EditableNote({ noteId }: { noteId: string }) {
         accept="image/*"
         onChange={handleImageSelected}
       />
+      {isDrawing && (
+        <NoteDrawing
+          content={content}
+          onClose={() => setIsDrawing(false)}
+        />
+      )}
       <NoteActions
         onGenerateAI={handleGenerateAI}
         onImageUpload={triggerImageUpload}
+        onDrawing={() => {
+          if (!isEditing) {
+            setIsEditing(true);
+          }
+          setIsDrawing(true);
+        }}
         onClearNote={clearNote}
-        isGenerating={isGenerating}
       >
         <div className="relative w-full">
           <div className="absolute top-0 right-0 text-xs rounded-bl-md z-10">

@@ -17,17 +17,17 @@ import {
 
 interface NoteActionsProps {
   children: JSX.Element;
-  isGenerating: boolean;
   onGenerateAI?: () => void;
   onImageUpload?: () => void;
+  onDrawing?: () => void;
   onClearNote?: () => void;
 }
 
 export default function NoteActions({
   children,
-  //isGenerating,
   onGenerateAI,
   onImageUpload,
+  onDrawing,
   onClearNote,
 }: NoteActionsProps) {
   return (
@@ -57,7 +57,7 @@ export default function NoteActions({
             <Image className="h-4 w-4" />
           </ContextMenuShortcut>
         </ContextMenuItem>
-        <ContextMenuItem inset disabled>
+        <ContextMenuItem inset onSelect={onDrawing}>
           Insert drawing
           <ContextMenuShortcut>
             <Pencil className="h-4 w-4" />
