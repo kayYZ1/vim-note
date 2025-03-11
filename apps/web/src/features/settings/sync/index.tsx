@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { RefreshCw, Cloud, Save } from "lucide-react";
+import { useLiveQuery } from "dexie-react-hooks";
+
 import {
   Card,
   CardContent,
@@ -9,21 +12,13 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { RefreshCw, Cloud, Save } from "lucide-react";
+
+import { db } from "@/lib/db";
+import { totalStorageUsed } from "@/lib/utils";
 
 export default function Sync() {
-  const [autoSync, setAutoSync] = useState(true);
-  const [syncFrequency, setSyncFrequency] = useState("30");
   const [lastSynced, setLastSynced] = useState("2 hours ago");
   const [syncStatus, setSyncStatus] = useState("idle");
 
@@ -34,6 +29,9 @@ export default function Sync() {
       setLastSynced("just now");
     }, 2000);
   };
+
+  const totalNotes = useLiveQuery(() => db.notes.count());
+  const totalStorage = useLiveQuery(async () => await totalStorageUsed());
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
@@ -60,7 +58,7 @@ export default function Sync() {
       <Tabs defaultValue="general" className="mb-8">
         <TabsList className="mb-4">
           <TabsTrigger value="general">General</TabsTrigger>
-          <TabsTrigger value="advanced">Advanced</TabsTrigger>
+          <TabsTrigger value="advanced" disabled>Advanced</TabsTrigger>
         </TabsList>
 
         <TabsContent value="general">
@@ -83,32 +81,9 @@ export default function Sync() {
                 </div>
                 <Switch
                   id="auto-sync"
-                  checked={autoSync}
-                  onCheckedChange={setAutoSync}
+                  disabled
                 />
               </div>
-
-              {autoSync && (
-                <div className="space-y-3">
-                  <Label htmlFor="sync-frequency">
-                    Sync Frequency (minutes)
-                  </Label>
-                  <Select
-                    value={syncFrequency}
-                    onValueChange={setSyncFrequency}
-                  >
-                    <SelectTrigger id="sync-frequency" className="w-full">
-                      <SelectValue placeholder="Select frequency" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="5">5 minutes</SelectItem>
-                      <SelectItem value="15">15 minutes</SelectItem>
-                      <SelectItem value="30">30 minutes</SelectItem>
-                      <SelectItem value="60">1 hour</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
 
               <div className="pt-2">
                 <Button
@@ -125,9 +100,9 @@ export default function Sync() {
 
           <Card className="mt-6">
             <CardHeader>
-              <CardTitle>Sync Status</CardTitle>
+              <CardTitle>Data Usage</CardTitle>
               <CardDescription>
-                View your current sync status and history
+                View your current data and storage usage
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -135,59 +110,13 @@ export default function Sync() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="p-4 rounded-lg border">
                     <div className="text-sm font-medium">Total Notes</div>
-                    <div className="mt-1 text-2xl font-semibold">127</div>
+                    <div className="mt-1 text-2xl font-semibold">{totalNotes}</div>
                   </div>
                   <div className="p-4 rounded-lg border">
                     <div className="text-sm font-medium">Storage Used</div>
-                    <div className="mt-1 text-2xl font-semibold">24.3 MB</div>
+                    <div className="mt-1 text-2xl font-semibold">{totalStorage} MB</div>
                   </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="advanced">
-          <Card>
-            <CardHeader>
-              <CardTitle>Advanced Settings</CardTitle>
-              <CardDescription>Configure advanced sync options</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-3">
-                <Label htmlFor="server-url">Sync Server URL</Label>
-                <Input
-                  id="server-url"
-                  placeholder="https://sync.example.com"
-                  defaultValue="https://api.notes-sync.com/v1"
-                />
-                <p className="text-xs">
-                  Only change if you're using a custom sync server
-                </p>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <Label htmlFor="offline-mode" className="text-base">
-                    Offline Mode
-                  </Label>
-                  <p className="text-sm">
-                    Temporarily disable syncing while preserving settings
-                  </p>
-                </div>
-                <Switch id="offline-mode" />
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <Label htmlFor="background-sync" className="text-base">
-                    Background Sync
-                  </Label>
-                  <p className="text-sm">
-                    Continue syncing when the app is closed
-                  </p>
-                </div>
-                <Switch id="background-sync" defaultChecked />
               </div>
             </CardContent>
           </Card>

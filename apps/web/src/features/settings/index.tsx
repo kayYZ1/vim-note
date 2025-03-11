@@ -6,12 +6,10 @@ import { Button } from "@/components/ui/button";
 
 export default function Settings() {
   const [darkMode, setDarkMode] = useState(false);
-  const [autoSave, setAutoSave] = useState(true);
 
   return (
     <div className="container mx-auto p-6 max-w-3xl">
       <h1 className="text-2xl font-bold mb-6">Settings</h1>
-
       <Card className="mb-6">
         <CardHeader>
           <CardTitle>Display Settings</CardTitle>
@@ -27,23 +25,6 @@ export default function Settings() {
           </div>
         </CardContent>
       </Card>
-
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle>App Settings</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="auto-save">Auto Save</Label>
-            <Switch
-              id="auto-save"
-              checked={autoSave}
-              onCheckedChange={setAutoSave}
-            />
-          </div>
-        </CardContent>
-      </Card>
-
       <div className="flex justify-end">
         <Button variant="outline" className="mr-2">
           Cancel
