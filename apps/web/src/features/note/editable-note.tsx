@@ -62,7 +62,6 @@ export default function EditableNote({ noteId }: { noteId: string }) {
     );
   };
 
-
   const handleImageSelected = async (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -120,10 +119,7 @@ export default function EditableNote({ noteId }: { noteId: string }) {
         onChange={handleImageSelected}
       />
       {isDrawing && (
-        <NoteDrawing
-          content={content}
-          onClose={() => setIsDrawing(false)}
-        />
+        <NoteDrawing content={content} onClose={() => setIsDrawing(false)} />
       )}
       <NoteActions
         onGenerateAI={handleGenerateAI}

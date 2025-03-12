@@ -4,7 +4,7 @@ export const streamLLMResponse = (
   onComplete?: () => void,
 ) => {
   const API_KEY = import.meta.env.VITE_OPEN_ROUTER;
-  const MODEL_ID = "google/gemini-2.0-pro-exp-02-05:free";
+  const MODEL_ID = localStorage.getItem("model");
 
   const abortController = new AbortController();
 

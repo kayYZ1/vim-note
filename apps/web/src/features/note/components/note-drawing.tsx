@@ -1,26 +1,25 @@
-import { useEffect } from 'react';
-import { Tldraw } from 'tldraw';
+import { useEffect } from "react";
+import { Tldraw } from "tldraw";
 
-import 'tldraw/tldraw.css';
+import "tldraw/tldraw.css";
 
 interface NoteDrawingProps {
   onClose: () => void;
   content: string;
 }
 
-export function NoteDrawing({ onClose, content  }: NoteDrawingProps) {
-
+export function NoteDrawing({ onClose, content }: NoteDrawingProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         onClose();
-      } else if (e.key === 's' && (e.metaKey || e.ctrlKey)) {
+      } else if (e.key === "s" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose, content]);
 
   return (

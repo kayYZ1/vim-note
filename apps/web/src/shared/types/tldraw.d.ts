@@ -1,6 +1,6 @@
-declare module 'tldraw' {
-  import { ReactNode } from 'react';
-  
+declare module "tldraw" {
+  import { ReactNode } from "react";
+
   export interface TldrawProps {
     children?: ReactNode;
     persistenceKey?: string;
