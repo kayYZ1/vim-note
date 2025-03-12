@@ -14,7 +14,6 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
 import { Edit, File } from 'lucide-react';
 
 export default function Bindings() {
@@ -72,7 +71,6 @@ export default function Bindings() {
 			<div className='flex items-center gap-2 mb-6'>
 				<h1 className='text-2xl font-bold'>Keyboard Bindings</h1>
 			</div>
-
 			<Card className='mb-6'>
 				<CardHeader>
 					<CardTitle>Customize Your Keyboard Shortcuts</CardTitle>
@@ -97,7 +95,6 @@ export default function Bindings() {
 								Editor
 							</TabsTrigger>
 						</TabsList>
-
 						<TabsContent value='general'>
 							<div className='max-h-[60vh] overflow-y-auto'>
 								<Table>
@@ -120,7 +117,6 @@ export default function Bindings() {
 								</Table>
 							</div>
 						</TabsContent>
-
 						<TabsContent value='editor'>
 							<div className='max-h-[50vh] overflow-x-auto'>
 								<Table>

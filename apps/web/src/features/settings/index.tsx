@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useThemeToggle } from '@/shared/hooks/use-theme';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 
 export default function Settings() {
-	const [darkMode, setDarkMode] = useState(false);
+	const { theme, toggleTheme } = useThemeToggle();
 
 	return (
 		<div className='container mx-auto p-6 max-w-3xl'>
@@ -18,8 +18,8 @@ export default function Settings() {
 						<Label htmlFor='dark-mode'>Dark Mode</Label>
 						<Switch
 							id='dark-mode'
-							checked={darkMode}
-							onCheckedChange={setDarkMode}
+							checked={theme === 'dark'}
+							onCheckedChange={toggleTheme}
 						/>
 					</div>
 				</CardContent>
