@@ -1,4 +1,5 @@
 import { Cloud, Keyboard, Notebook, Settings } from 'lucide-react';
+import { useNavigate } from 'react-router';
 import { useLiveQuery } from 'dexie-react-hooks';
 
 import { db } from '@/lib/db';
@@ -13,6 +14,7 @@ import {
 } from '@/components/ui/command';
 
 export default function CommandSearch() {
+	const navigate = useNavigate();
 	const notes = useLiveQuery(() => db.notes.toArray());
 
 	if (!notes) {
@@ -27,7 +29,9 @@ export default function CommandSearch() {
 					<CommandEmpty>No results found.</CommandEmpty>
 					<CommandGroup heading='Suggestions'>
 						{notes.map((note) => (
-							<CommandItem key={note.id}>
+							<CommandItem
+								key={note.id}
+								onSelect={() => navigate(`/note/${note.id}`)}>
 								<Notebook className='mr-2 h-4 w-4' />
 								<span>{note.title}</span>
 							</CommandItem>
@@ -35,15 +39,15 @@ export default function CommandSearch() {
 					</CommandGroup>
 					<CommandSeparator />
 					<CommandGroup heading='Settings'>
-						<CommandItem>
+						<CommandItem onSelect={() => navigate('/settings')}>
 							<Settings className='mr-2 h-4 w-4' />
 							<span>Settings</span>
 						</CommandItem>
-						<CommandItem>
+						<CommandItem onSelect={() => navigate('/settings/sync')}>
 							<Cloud className='mr-2 h-4 w-4' />
 							<span>Synchronization</span>
 						</CommandItem>
-						<CommandItem>
+						<CommandItem onSelect={() => navigate('/settings/bindings')}>
 							<Keyboard className='mr-2 h-4 w-4' />
 							<span>Bindings</span>
 						</CommandItem>

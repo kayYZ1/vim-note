@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Outlet } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 import { Menu } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -18,6 +18,7 @@ import CommandSearch from './components/command-search';
 
 export default function RootLayout() {
 	const [isOpen, setIsOpen] = useState(false);
+	const location = useLocation();
 
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
@@ -30,12 +31,13 @@ export default function RootLayout() {
 			}
 		};
 
-		window.addEventListener('keydown', handleKeyDown);
+		setIsOpen(false); //Close after location changes
 
+		window.addEventListener('keydown', handleKeyDown);
 		return () => {
 			window.removeEventListener('keydown', handleKeyDown);
 		};
-	}, []);
+	}, [location.pathname]);
 
 	return (
 		<div
