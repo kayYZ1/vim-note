@@ -26,17 +26,17 @@ export default function RootLayout() {
 
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
-			if (e.key === 'f' && e.ctrlKey) {
+			if (e.key === 'f' && (e.metaKey || e.ctrlKey)) {
 				e.preventDefault();
-				setIsCommandSearchOpen(true);
+				setIsCommandSearchOpen((prev) => !prev);
 			}
-			if (e.key === 'b' && e.ctrlKey) {
+			if (e.key === 'b' && (e.metaKey || e.ctrlKey)) {
 				e.preventDefault();
 				setIsSidebarOpen((prev) => !prev);
 			}
-			if (e.key === 'm' && e.ctrlKey) {
+			if (e.key === 'm' && (e.metaKey || e.ctrlKey)) {
 				e.preventDefault();
-				setIsNewNote(true);
+				setIsNewNote((prev) => !prev);
 			}
 			if (e.key === 'Escape') {
 				setIsCommandSearchOpen(false);
@@ -47,9 +47,9 @@ export default function RootLayout() {
 		setIsCommandSearchOpen(false);
 		setIsNewNote(false);
 
-		window.addEventListener('keydown', handleKeyDown);
+		document.addEventListener('keydown', handleKeyDown);
 		return () => {
-			window.removeEventListener('keydown', handleKeyDown);
+			document.removeEventListener('keydown', handleKeyDown);
 		};
 	}, [location.pathname]);
 
@@ -92,13 +92,14 @@ export default function RootLayout() {
 			</header>
 			{/* Main Content */}
 			<main className='container mx-auto max-w-4xl'>
-				{isCommandSearchOpen && <CommandSearch />}
-				{isNewNoteOpen && (
-					<NewNote
-						isOpen={isNewNoteOpen}
-						onOpenChange={setIsNewNote}
-					/>
-				)}
+				<CommandSearch
+					isOpen={isCommandSearchOpen}
+					onOpenChange={setIsCommandSearchOpen}
+				/>
+				<NewNote
+					isOpen={isNewNoteOpen}
+					onOpenChange={setIsNewNote}
+				/>
 				<Outlet />
 			</main>
 		</div>
