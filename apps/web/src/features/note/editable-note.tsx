@@ -63,11 +63,9 @@ export default function EditableNote({ noteId }: { noteId: string }) {
 
 		if (!isEditing) {
 			setIsEditing(true);
-			// Small delay to make sure the textarea is rendered
 			await new Promise((resolve) => setTimeout(resolve, 50));
 		}
 
-		// Get cursor position
 		const textArea = textAreaRef.current;
 		const cursorPosition = textArea ? textArea.selectionEnd : content.length;
 
@@ -77,11 +75,6 @@ export default function EditableNote({ noteId }: { noteId: string }) {
 			setContent(newContent);
 			await saveNote(newContent);
 			toast.success('Image inserted successfully');
-
-			// Reset file input to allow selecting the same file again
-			if (fileInputRef.current) {
-				fileInputRef.current.value = '';
-			}
 		}
 	};
 
@@ -128,7 +121,7 @@ export default function EditableNote({ noteId }: { noteId: string }) {
 				}}
 				onClearNote={clearNote}>
 				<div className='relative w-full'>
-					<div className='absolute top-0 right-0 text-xs rounded-bl-md z-10'>
+					<div className='absolute top-0 right-0 text-xs'>
 						{isGenerating
 							? '---GENERATING---'
 							: isEditing
