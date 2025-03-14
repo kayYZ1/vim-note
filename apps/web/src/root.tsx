@@ -10,28 +10,42 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from '@/components/ui/sheet';
-import ToggleTheme from './components/toggle-theme';
 
-import Notes from './features/notes';
+import ToggleTheme from './components/toggle-theme';
 import SettingsList from './components/settings-list';
 import CommandSearch from './components/command-search';
+import NewNote from './components/new-note';
+import Notes from './features/notes';
 
 export default function RootLayout() {
-	const [isOpen, setIsOpen] = useState(false);
+	const [isCommandSearchOpen, setIsCommandSearchOpen] = useState(false);
+	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+	const [isNewNoteOpen, setIsNewNote] = useState(false);
+
 	const location = useLocation();
 
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.key === 'f' && e.ctrlKey) {
 				e.preventDefault();
-				setIsOpen(true);
+				setIsCommandSearchOpen(true);
+			}
+			if (e.key === 'b' && e.ctrlKey) {
+				e.preventDefault();
+				setIsSidebarOpen((prev) => !prev);
+			}
+			if (e.key === 'm' && e.ctrlKey) {
+				e.preventDefault();
+				setIsNewNote(true);
 			}
 			if (e.key === 'Escape') {
-				setIsOpen(false);
+				setIsCommandSearchOpen(false);
+				setIsNewNote(false);
 			}
 		};
 
-		setIsOpen(false); //Close after location changes
+		setIsCommandSearchOpen(false);
+		setIsNewNote(false);
 
 		window.addEventListener('keydown', handleKeyDown);
 		return () => {
@@ -46,7 +60,9 @@ export default function RootLayout() {
 			{/* Header */}
 			<header className='px-8 py-4'>
 				<div className='flex items-center justify-between px-4 py-3'>
-					<Sheet>
+					<Sheet
+						open={isSidebarOpen}
+						onOpenChange={setIsSidebarOpen}>
 						<SheetTrigger asChild>
 							<Button
 								variant='ghost'
@@ -76,7 +92,13 @@ export default function RootLayout() {
 			</header>
 			{/* Main Content */}
 			<main className='container mx-auto max-w-4xl'>
-				{isOpen && <CommandSearch />}
+				{isCommandSearchOpen && <CommandSearch />}
+				{isNewNoteOpen && (
+					<NewNote
+						isOpen={isNewNoteOpen}
+						onOpenChange={setIsNewNote}
+					/>
+				)}
 				<Outlet />
 			</main>
 		</div>

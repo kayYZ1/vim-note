@@ -1,4 +1,4 @@
-import { Cloud, Keyboard, Notebook, Settings } from 'lucide-react';
+import { Cloud, Keyboard, Settings, StickyNote } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { useLiveQuery } from 'dexie-react-hooks';
 
@@ -15,8 +15,8 @@ import {
 
 export default function CommandSearch() {
 	const navigate = useNavigate();
-	const notes = useLiveQuery(() => db.notes.toArray());
 
+	const notes = useLiveQuery(() => db.notes.toArray());
 	if (!notes) {
 		return;
 	}
@@ -24,15 +24,15 @@ export default function CommandSearch() {
 	return (
 		<div className='fixed inset-x-0 top-20 z-50 flex justify-center'>
 			<Command className='rounded-lg border shadow-md w-md'>
-				<CommandInput placeholder='Type a command or search...' />
+				<CommandInput placeholder='Search ...' />
 				<CommandList>
 					<CommandEmpty>No results found.</CommandEmpty>
-					<CommandGroup heading='Suggestions'>
+					<CommandGroup heading='Notes'>
 						{notes.map((note) => (
 							<CommandItem
 								key={note.id}
 								onSelect={() => navigate(`/note/${note.id}`)}>
-								<Notebook className='mr-2 h-4 w-4' />
+								<StickyNote className='mr-2 h-4 w-4' />
 								<span>{note.title}</span>
 							</CommandItem>
 						))}

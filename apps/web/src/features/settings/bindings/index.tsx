@@ -18,10 +18,8 @@ import { Edit, File } from 'lucide-react';
 
 export default function Bindings() {
 	const generalBindings = [
-		{ action: 'New Note', shortcut: 'Ctrl+N' },
-		{ action: 'Save', shortcut: 'Ctrl+S' },
+		{ action: 'New Note', shortcut: 'Ctrl+M' },
 		{ action: 'Find', shortcut: 'Ctrl+F' },
-		{ action: 'Settings', shortcut: 'Ctrl+,' },
 		{ action: 'Toggle Sidebar', shortcut: 'Ctrl+B' },
 	];
 
