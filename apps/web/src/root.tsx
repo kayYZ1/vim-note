@@ -15,6 +15,7 @@ import ToggleTheme from './components/toggle-theme';
 import SettingsList from './components/settings-list';
 import CommandSearch from './components/command-search';
 import NewNote from './components/new-note';
+import FeaturesList from './components/features-list';
 import Notes from './features/notes';
 
 export default function RootLayout() {
@@ -82,8 +83,11 @@ export default function RootLayout() {
 										Add folders & create notes
 									</SheetDescription>
 								</div>
-								<Notes />
-								<SettingsList />
+								<div className='py-4 space-y-2'>
+									<FeaturesList />
+									<Notes />
+									<SettingsList />
+								</div>
 							</div>
 						</SheetContent>
 					</Sheet>

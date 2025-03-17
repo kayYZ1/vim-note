@@ -94,7 +94,7 @@ export default function Notes() {
 			onDragStart={handleDragStart}
 			onDragEnd={handleDragEnd}
 			sensors={sensors}>
-			<nav className='flex flex-col space-y-4 mt-6 flex-1'>
+			<nav className='flex flex-col space-y-4 flex-1'>
 				<div
 					className='space-y-2'
 					id='notes-list'>
@@ -102,41 +102,43 @@ export default function Notes() {
 						<span>Notes</span>
 						<PrimaryMenu />
 					</div>
-					<Accordion type='multiple'>
-						{folders.map((folder) => (
-							<AccordionItem
-								value={folder.name}
-								key={folder.id}
-								className='border-0'
-								id='folder'>
-								<AccordionTrigger className='px-2 text-sm'>
-									<SecondaryMenu {...folder} />
-								</AccordionTrigger>
-								<AccordionContent className='relative px-6 before:absolute before:left-3.5 before:top-0 before:bottom-0 before:w-[2px] before:bg-gray-400 before:opacity-30'>
-									<DroppableArea id={folder.id}>
-										{folder.notes.length !== 0 ? (
-											folder.notes.map((note) => (
-												<DraggableNote
-													key={note.id}
-													note={note}
-												/>
-											))
-										) : (
-											<p className='p-4'>No notes</p>
-										)}
-									</DroppableArea>
-								</AccordionContent>
-							</AccordionItem>
-						))}
-						<DroppableArea id='root'>
-							{singleNotes.map((note) => (
-								<DraggableNote
-									key={note.id}
-									note={note}
-								/>
+					<div className='max-h-[60vh] overflow-y-auto'>
+						<Accordion type='multiple'>
+							{folders.map((folder) => (
+								<AccordionItem
+									value={folder.name}
+									key={folder.id}
+									className='border-0'
+									id='folder'>
+									<AccordionTrigger className='px-2 text-sm'>
+										<SecondaryMenu {...folder} />
+									</AccordionTrigger>
+									<AccordionContent className='relative px-6 before:absolute before:left-3.5 before:top-0 before:bottom-0 before:w-[2px] before:bg-gray-400 before:opacity-30'>
+										<DroppableArea id={folder.id}>
+											{folder.notes.length !== 0 ? (
+												folder.notes.map((note) => (
+													<DraggableNote
+														key={note.id}
+														note={note}
+													/>
+												))
+											) : (
+												<p className='p-4'>No notes</p>
+											)}
+										</DroppableArea>
+									</AccordionContent>
+								</AccordionItem>
 							))}
-						</DroppableArea>
-					</Accordion>
+							<DroppableArea id='root'>
+								{singleNotes.map((note) => (
+									<DraggableNote
+										key={note.id}
+										note={note}
+									/>
+								))}
+							</DroppableArea>
+						</Accordion>
+					</div>
 				</div>
 			</nav>
 			<DragOverlay>
