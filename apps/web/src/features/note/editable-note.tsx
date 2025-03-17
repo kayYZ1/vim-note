@@ -4,7 +4,6 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import remarkBreaks from 'remark-breaks';
-import { NoteDrawing } from './components/note-drawing';
 
 import { toast } from 'sonner';
 import { Toaster } from '@/components/ui/sonner';
@@ -16,6 +15,7 @@ import { useImageUpload } from './hooks/use-image-upload';
 import { useTldraw } from './hooks/use-tldraw';
 import NoteActions from './components/note-actions';
 import { mdComponents } from './components/md-components';
+import { NoteDrawing } from './components/note-drawing';
 
 export default function EditableNote({ noteId }: { noteId: string }) {
 	const textAreaRef = useRef<HTMLTextAreaElement>(null);

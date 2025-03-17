@@ -11,7 +11,7 @@ interface UploadOptions {
 }
 
 export function useImageUpload({
-	maxFileSize = 2 * 1024 * 1024, // 5MB default
+	maxFileSize = 2 * 1024 * 1024, //2mb
 	maxWidth = 800,
 	maxHeight = 600,
 	quality = 0.3,
