@@ -2,6 +2,7 @@ import { lazy } from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router';
 
 const RootLayout = lazy(() => import('./root'));
+const GraphView = lazy(() => import('./features/graph-view'));
 const Note = lazy(() => import('./features/note'));
 const NoteGuard = lazy(() => import('./guards/note-guard'));
 const Settings = lazy(() => import('./features/settings'));
@@ -15,6 +16,10 @@ export default function App() {
 				<Route
 					path='/'
 					element={<RootLayout />}>
+					<Route
+						path='graph'
+						element={<GraphView />}
+					/>
 					<Route
 						index
 						element={

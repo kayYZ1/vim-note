@@ -10,7 +10,7 @@ export default function FeaturesList() {
 				</div>
 				<div className='space-y-1'>
 					<Link
-						to='/features/graph'
+						to='graph'
 						className='w-full flex items-center gap-2 px-2 py-1 text-sm rounded-md hover:bg-accent'>
 						<GitGraph className='h-4 w-4' />
 						<span>Graph view</span>
