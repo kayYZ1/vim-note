@@ -44,7 +44,7 @@ export default function DraggableNote({
 			</ContextMenuTrigger>
 			<ContextMenuContent className='w-40 p-1 shadow-md rounded-lg border'>
 				<ContextMenuItem asChild>
-					<DeleteNote noteId={note.id} />
+					<DeleteNote note={note} />
 				</ContextMenuItem>
 			</ContextMenuContent>
 		</ContextMenu>
