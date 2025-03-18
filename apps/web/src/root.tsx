@@ -29,10 +29,6 @@ export default function RootLayout() {
 	const location = useLocation();
 
 	useEffect(() => {
-		if (localStorage.getItem('autoTheme') !== 'on') {
-			return;
-		}
-
 		const now = new Date();
 		const hours = now.getHours();
 		const shouldBeDark = hours >= 19 || hours < 6;

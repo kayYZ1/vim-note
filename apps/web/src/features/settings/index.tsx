@@ -14,9 +14,6 @@ import {
 
 export default function Settings() {
 	const { theme, toggleTheme } = useThemeToggle();
-	const [autoTheme, setAutoTheme] = useState(() => {
-		return localStorage.getItem('autoTheme') || 'off';
-	});
 	const [selectedModel, setSelectedModel] = useState(() => {
 		return (
 			localStorage.getItem('model') || 'google/gemini-2.0-pro-exp-02-05:free'
@@ -28,41 +25,24 @@ export default function Settings() {
 		localStorage.setItem('model', value);
 	};
 
-	const handleAutoThemeToggle = () => {
-		const newAutoTheme = autoTheme === 'off' ? 'on' : 'off';
-		setAutoTheme(newAutoTheme);
-		localStorage.setItem('autoTheme', newAutoTheme);
-	};
-
 	return (
 		<div className='container mx-auto p-6 max-w-3xl'>
 			<h1 className='text-2xl font-bold mb-6'>Settings</h1>
-
 			<Card className='mb-6'>
 				<CardHeader>
 					<CardTitle>Display Settings</CardTitle>
 				</CardHeader>
 				<CardContent className='space-y-4'>
 					<div className='flex items-center justify-between'>
-						<Label htmlFor='dark-mode'>Auto theme mode</Label>
-						<Switch
-							id='auto-mode'
-							checked={autoTheme === 'on'}
-							onCheckedChange={handleAutoThemeToggle}
-						/>
-					</div>
-					<div className='flex items-center justify-between'>
 						<Label htmlFor='dark-mode'>Dark Mode</Label>
 						<Switch
 							id='dark-mode'
-							checked={autoTheme !== 'on' && theme === 'dark'}
+							checked={theme === 'dark'}
 							onCheckedChange={toggleTheme}
-							disabled={autoTheme === 'on'}
 						/>
 					</div>
 				</CardContent>
 			</Card>
-
 			<Card className='mb-6'>
 				<CardHeader>
 					<CardTitle>Language Model Settings</CardTitle>
