@@ -1,6 +1,7 @@
 import { Trash2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 import {
 	Dialog,
 	DialogClose,
@@ -16,7 +17,7 @@ import { Note } from '@/lib/interfaces';
 
 export default function DeleteNote({ note }: { note: Note }) {
 	const pruneNoteImages = async (content: string) => {
-		const imagePattern = /!\[.*?\]\(\/local-image\/([^\)]+)\)/g;
+		const imagePattern = /!\[.*?\]\(\/local-image\/([^)]+)\)/g;
 		const matches = content.matchAll(imagePattern);
 		const imageIds = Array.from(matches, (match) => match[1]);
 
@@ -39,6 +40,11 @@ export default function DeleteNote({ note }: { note: Note }) {
 	};
 
 	const handleDeleteNote = async () => {
+		const notes = await db.notes.toArray();
+		if (notes.length <= 1) {
+			toast.warning("Can't delete the last note");
+			return;
+		}
 		if (note.content) {
 			await pruneNoteImages(note.content);
 		}
