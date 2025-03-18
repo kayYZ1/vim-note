@@ -11,6 +11,7 @@ import {
 	SheetTrigger,
 } from '@/components/ui/sheet';
 
+import { useThemeToggle } from './shared/hooks/use-theme';
 import ToggleTheme from './components/toggle-theme';
 import SettingsList from './components/settings-list';
 import CommandSearch from './components/command-search';
@@ -23,7 +24,25 @@ export default function RootLayout() {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const [isNewNoteOpen, setIsNewNote] = useState(false);
 
+	const { theme, toggleTheme } = useThemeToggle();
+
 	const location = useLocation();
+
+	useEffect(() => {
+		if (localStorage.getItem('autoTheme') !== 'on') {
+			return;
+		}
+
+		const now = new Date();
+		const hours = now.getHours();
+		const shouldBeDark = hours >= 19 || hours < 6;
+
+		if (shouldBeDark && theme !== 'dark') {
+			toggleTheme();
+		} else if (!shouldBeDark && theme !== 'light') {
+			toggleTheme();
+		}
+	}, [theme, toggleTheme]);
 
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
