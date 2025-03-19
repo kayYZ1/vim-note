@@ -31,7 +31,7 @@ export default function RootLayout() {
 	useEffect(() => {
 		const now = new Date();
 		const hours = now.getHours();
-		const shouldBeDark = hours >= 19 || hours < 6;
+		const shouldBeDark = hours >= 18 || hours < 6;
 
 		if (shouldBeDark && theme !== 'dark') {
 			toggleTheme();

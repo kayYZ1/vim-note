@@ -55,8 +55,10 @@ export default function CreateNote({ folder }: { folder?: Folder }) {
 			</DialogTrigger>
 			<DialogContent className='sm:max-w-sm'>
 				<DialogHeader>
-					<DialogTitle>Note info</DialogTitle>
-					<DialogDescription>Make it catchy :]</DialogDescription>
+					<DialogTitle>Create note</DialogTitle>
+					<DialogDescription>
+						Make sure to include description!
+					</DialogDescription>
 				</DialogHeader>
 				<div className='grid gap-2'>
 					<div className='grid gap-2'>
@@ -69,7 +71,7 @@ export default function CreateNote({ folder }: { folder?: Folder }) {
 							id='title'
 							type='text'
 							ref={noteTitleRef}
-							placeholder='Node.js'
+							placeholder='Your note title'
 							required={true}
 						/>
 					</div>
@@ -83,7 +85,7 @@ export default function CreateNote({ folder }: { folder?: Folder }) {
 							id='description'
 							type='text'
 							ref={noteDescriptionRef}
-							placeholder='Aczkolwiek za kazdym razem [...]'
+							placeholder='Your note description'
 							required={true}
 						/>
 					</div>

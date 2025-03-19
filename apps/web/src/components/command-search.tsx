@@ -31,7 +31,7 @@ export default function CommandSearch({
 		<CommandDialog
 			open={isOpen}
 			onOpenChange={onOpenChange}>
-			<CommandInput placeholder='Search ...' />
+			<CommandInput placeholder='Search...' />
 			<CommandList>
 				<CommandEmpty>No results found.</CommandEmpty>
 				<CommandGroup heading='Notes'>
