@@ -2,7 +2,7 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
 	e2e: {
-		baseUrl: 'http://localhost:4173',
+		baseUrl: 'http://localhost:4173', //Change to prod url for regression tests
 		supportFile: false,
 		specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
 		video: false,
