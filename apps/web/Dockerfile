@@ -7,7 +7,9 @@ WORKDIR /app
 
 RUN npm install -g pnpm
 
-RUN pnpm install --frozen-lockfile
+COPY package.json ./
+
+RUN pnpm install
 
 COPY . ./
 
