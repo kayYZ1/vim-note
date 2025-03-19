@@ -11,7 +11,7 @@
 		"paths": {
 			"@/*": ["./src/*"]
 		},
-		"types": ["cypress", "node"],
+		"types": ["node"],
 
 		/* Bundler mode */
 		"moduleResolution": "bundler",
