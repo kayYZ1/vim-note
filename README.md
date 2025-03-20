@@ -7,6 +7,10 @@ In memory browser note taking app
 To learn how to integrate AI into markdown files.
 It also uses a turborepo for some reason
 
+## Demo
+
+Newest release can be found [Here](https://vim-note-production.up.railway.app)
+
 ## Features
 
 - Tree like folder/note structure (x)
