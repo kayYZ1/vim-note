@@ -2,9 +2,9 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
 	e2e: {
-		baseUrl: 'http://localhost:4173', //Change to prod url for regression tests
-		supportFile: false,
-		specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
+		baseUrl: 'https://vim-note-production.up.railway.app',
+		supportFile: 'support/e2e.ts',
+		specPattern: 'e2e/**/*.cy.{js,jsx,ts,tsx}',
 		video: false,
 		screenshotOnRunFailure: true,
 		retries: { runMode: 0, openMode: 0 },
