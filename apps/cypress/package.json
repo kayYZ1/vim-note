@@ -4,7 +4,7 @@
 	"description": "",
 	"scripts": {
 		"cypress:open": "cypress open",
-		"cypress:run": "cypress run"
+		"test:web": "cypress run"
 	},
 	"keywords": [],
 	"author": "",
