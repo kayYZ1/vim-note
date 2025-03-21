@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 describe("Test default note rendering after app opening", () => {
   beforeEach(() => {
     cy.visit("/");
