@@ -92,7 +92,7 @@ export default function RootLayout() {
 							<div className='flex flex-col p-4'>
 								<div className='space-y-2 pb-4 border-b px-2'>
 									<SheetTitle className='text-2xl font-bold'>
-										vim-note
+										mem-note
 									</SheetTitle>
 									<SheetDescription className='text-sm text-muted-foreground'>
 										Add folders & create notes
