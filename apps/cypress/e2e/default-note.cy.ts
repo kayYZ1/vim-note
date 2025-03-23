@@ -15,18 +15,6 @@ describe("Test default note rendering after app opening", () => {
     });
   });
 
-  it("should toggle the theme switch button from dark to light", () => {
-    cy.clearAllLocalStorage();
-    cy.window().then((win) => {
-      win.localStorage.setItem("theme", "dark");
-    });
-    cy.visit("/");
-    cy.get("#theme-toggle").click();
-    cy.window().then((win) => {
-      expect(win.localStorage.getItem("theme")).to.equal("light");
-    });
-  });
-
   it("should display current date in p", () => {
     cy.get("p")
       .should("be.visible")

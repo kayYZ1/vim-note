@@ -50,7 +50,7 @@ export default function Settings() {
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
             <Label htmlFor="model-select">
-              AI Model (Only free are currently available)
+              AI Model (only free ones on OpenRouter)
             </Label>
             <Select value={selectedModel} onValueChange={handleModelChange}>
               <SelectTrigger className="w-[180px]" id="model-select">
