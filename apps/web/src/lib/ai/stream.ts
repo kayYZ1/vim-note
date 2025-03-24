@@ -1,77 +1,83 @@
+import { toast } from 'sonner';
+
 export const streamLLMResponse = (
-  prompt: string,
-  onChunk: (chunk: string) => void,
-  onComplete?: () => void,
+	prompt: string,
+	onChunk: (chunk: string) => void,
+	onComplete?: () => void
 ) => {
-  const API_KEY = import.meta.env.VITE_OPEN_ROUTER;
-  const MODEL_ID =
-    localStorage.getItem("model") || "google/gemini-2.0-pro-exp-02-05:free";
+	const API_KEY = import.meta.env.VITE_OPEN_ROUTER;
+	const MODEL_ID = localStorage.getItem('model') || 'None';
 
-  const abortController = new AbortController();
+	if (MODEL_ID === 'None') {
+		toast.error('Please select a model in the settings page');
+		return;
+	}
 
-  (async () => {
-    try {
-      const response = await fetch(
-        "https://openrouter.ai/api/v1/chat/completions",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${API_KEY}`,
-            "HTTP-Referer": window.location.origin, // Required by OpenRouter
-            "X-Title": "LLM Streaming", // Optional but recommended
-          },
-          body: JSON.stringify({
-            model: MODEL_ID,
-            messages: [{ role: "user", content: prompt }],
-            stream: true, // Enable streaming
-          }),
-          signal: abortController.signal,
-        },
-      );
+	const abortController = new AbortController();
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+	(async () => {
+		try {
+			const response = await fetch(
+				'https://openrouter.ai/api/v1/chat/completions',
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${API_KEY}`,
+						'HTTP-Referer': window.location.origin, // Required by OpenRouter
+						'X-Title': 'LLM Streaming', // Optional but recommended
+					},
+					body: JSON.stringify({
+						model: MODEL_ID,
+						messages: [{ role: 'user', content: prompt }],
+						stream: true, // Enable streaming
+					}),
+					signal: abortController.signal,
+				}
+			);
 
-      if (!response.body) {
-        throw new Error("Response body is null");
-      }
+			if (!response.ok) {
+				throw new Error(`HTTP error! Status: ${response.status}`);
+			}
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder("utf-8");
+			if (!response.body) {
+				throw new Error('Response body is null');
+			}
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
+			const reader = response.body.getReader();
+			const decoder = new TextDecoder('utf-8');
 
-        const chunk = decoder.decode(value);
-        const lines = chunk.split("\n").filter((line) => line.trim() !== "");
+			while (true) {
+				const { done, value } = await reader.read();
+				if (done) break;
 
-        for (const line of lines) {
-          if (line.startsWith("data: ")) {
-            const data = line.slice(6);
+				const chunk = decoder.decode(value);
+				const lines = chunk.split('\n').filter((line) => line.trim() !== '');
 
-            if (data === "[DONE]") continue;
+				for (const line of lines) {
+					if (line.startsWith('data: ')) {
+						const data = line.slice(6);
 
-            try {
-              const parsed = JSON.parse(data);
-              const content = parsed.choices[0]?.delta?.content || "";
-              if (content) {
-                onChunk(content);
-              }
-            } catch (e) {
-              console.error("Error parsing JSON from stream:", e);
-            }
-          }
-        }
-      }
+						if (data === '[DONE]') continue;
 
-      onComplete?.();
-    } catch (error) {
-      console.error("Error generating response:", error);
-    }
-  })();
+						try {
+							const parsed = JSON.parse(data);
+							const content = parsed.choices[0]?.delta?.content || '';
+							if (content) {
+								onChunk(content);
+							}
+						} catch (e) {
+							console.error('Error parsing JSON from stream:', e);
+						}
+					}
+				}
+			}
 
-  return () => abortController.abort();
+			onComplete?.();
+		} catch (error) {
+			console.error('Error generating response:', error);
+		}
+	})();
+
+	return () => abortController.abort();
 };
