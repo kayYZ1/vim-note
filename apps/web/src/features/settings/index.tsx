@@ -15,9 +15,7 @@ import {
 export default function Settings() {
   const { theme, toggleTheme } = useThemeToggle();
   const [selectedModel, setSelectedModel] = useState(() => {
-    return (
-      localStorage.getItem("model") || "google/gemini-2.0-pro-exp-02-05:free"
-    );
+    return localStorage.getItem("model") || "None";
   });
 
   const handleModelChange = (value: string) => {
@@ -50,13 +48,14 @@ export default function Settings() {
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
             <Label htmlFor="model-select">
-              AI Model (Only free are currently available)
+              AI Model (only free ones on OpenRouter)
             </Label>
             <Select value={selectedModel} onValueChange={handleModelChange}>
               <SelectTrigger className="w-[180px]" id="model-select">
                 <SelectValue placeholder="Select a model" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="None">None</SelectItem>
                 <SelectItem value="deepseek/deepseek-r1:free">
                   DeepSeek R1
                 </SelectItem>

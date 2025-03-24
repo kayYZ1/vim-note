@@ -1,11 +1,17 @@
+import { toast } from "sonner";
+
 export const streamLLMResponse = (
   prompt: string,
   onChunk: (chunk: string) => void,
   onComplete?: () => void,
 ) => {
   const API_KEY = import.meta.env.VITE_OPEN_ROUTER;
-  const MODEL_ID =
-    localStorage.getItem("model") || "google/gemini-2.0-pro-exp-02-05:free";
+  const MODEL_ID = localStorage.getItem("model") || "None";
+
+  if (MODEL_ID === "None") {
+    toast.error("Please select a model in the settings page");
+    return;
+  }
 
   const abortController = new AbortController();
 
