@@ -22,7 +22,7 @@ import Notes from "./features/notes";
 export default function RootLayout() {
   const [isCommandSearchOpen, setIsCommandSearchOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isNewNoteOpen, setIsNewNote] = useState(false);
+  const [isNewNoteOpen, setIsNewNoteOpen] = useState(false);
 
   const { theme, toggleTheme } = useThemeToggle();
 
@@ -38,7 +38,7 @@ export default function RootLayout() {
     } else if (!shouldBeDark && theme !== "light") {
       toggleTheme();
     }
-  }, [theme, toggleTheme]);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -52,16 +52,16 @@ export default function RootLayout() {
       }
       if (e.key === "m" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setIsNewNote((prev) => !prev);
+        setIsNewNoteOpen((prev) => !prev);
       }
       if (e.key === "Escape") {
         setIsCommandSearchOpen(false);
-        setIsNewNote(false);
+        setIsNewNoteOpen(false);
       }
     };
 
     setIsCommandSearchOpen(false);
-    setIsNewNote(false);
+    setIsNewNoteOpen(false);
 
     document.addEventListener("keydown", handleKeyDown);
     return () => {
@@ -79,7 +79,7 @@ export default function RootLayout() {
         <div className="flex items-center justify-between px-4 py-3">
           <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" aria-label="Open menu">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
@@ -87,7 +87,7 @@ export default function RootLayout() {
               <div className="flex flex-col p-4">
                 <div className="space-y-2 pb-4 border-b px-2">
                   <SheetTitle className="text-2xl font-bold">
-                    mem-note
+                    vim-note
                   </SheetTitle>
                   <SheetDescription className="text-sm text-muted-foreground">
                     Add folders & create notes
@@ -110,7 +110,7 @@ export default function RootLayout() {
           isOpen={isCommandSearchOpen}
           onOpenChange={setIsCommandSearchOpen}
         />
-        <NewNote isOpen={isNewNoteOpen} onOpenChange={setIsNewNote} />
+        <NewNote isOpen={isNewNoteOpen} onOpenChange={setIsNewNoteOpen} />
         <Outlet />
       </main>
     </div>

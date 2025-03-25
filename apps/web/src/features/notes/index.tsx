@@ -111,7 +111,7 @@ export default function Notes() {
                   id="folder"
                 >
                   <AccordionTrigger className="px-2 text-sm">
-                    <SecondaryMenu {...folder} />
+                    <SecondaryMenu folder={folder} />
                   </AccordionTrigger>
                   <AccordionContent className="relative px-6 before:absolute before:left-3.5 before:top-0 before:bottom-0 before:w-[2px] before:bg-gray-400 before:opacity-30">
                     <DroppableArea id={folder.id}>

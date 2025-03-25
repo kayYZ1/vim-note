@@ -9,6 +9,7 @@ export interface Note {
 export interface Folder {
   id: string;
   name: string;
+  color: string | null;
   notes: Note[];
 }
 

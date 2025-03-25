@@ -14,7 +14,7 @@ const db = new Dexie("VimNoteInMemoryDb") as Dexie & {
 // Schema declaration:
 db.version(1).stores({
   notes: "id, date, title, description, content",
-  folders: "id, name, notes",
+  folders: "id, name, color, notes",
   images: "++id, name, src",
 });
 
