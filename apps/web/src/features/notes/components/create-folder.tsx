@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { db } from "@/lib/db";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 export default function CreateFolder() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -24,6 +25,7 @@ export default function CreateFolder() {
     await db.folders.add({
       id: nanoid(),
       name: inputRef.current.value,
+      color: null,
       notes: [],
     });
   };
@@ -42,6 +44,7 @@ export default function CreateFolder() {
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
           <DialogTitle>Create new folder</DialogTitle>
+          <DialogDescription>...</DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2">
           <div className="grid flex-1 gap-2">
