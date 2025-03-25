@@ -31,8 +31,5 @@ jobs:
           restore-keys: |
             cypress-${{ runner.os }}-
 
-      - name: Install dependencies
-        run: pnpm cypress install
-
       - name: Run Cypress tests
         run: pnpm cypress:run
