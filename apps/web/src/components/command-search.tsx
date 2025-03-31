@@ -1,4 +1,4 @@
-import { Cloud, Keyboard, Settings, StickyNote } from "lucide-react";
+import { Cloud, GitBranch, Keyboard, Settings, StickyNote } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useLiveQuery } from "dexie-react-hooks";
 
@@ -44,7 +44,11 @@ export default function CommandSearch({
           ))}
         </CommandGroup>
         <CommandSeparator />
-        <CommandGroup heading="Settings">
+        <CommandGroup heading="Other">
+          <CommandItem onSelect={() => navigate("/graph")}>
+            <GitBranch className="mr-2 h-4 w-4" />
+            <span>Graph view</span>
+          </CommandItem>
           <CommandItem onSelect={() => navigate("/settings")}>
             <Settings className="mr-2 h-4 w-4" />
             <span>Settings</span>
