@@ -21,6 +21,7 @@ export default function Bindings() {
     { action: "New Note", shortcut: "Ctrl+M" },
     { action: "Find", shortcut: "Ctrl+F" },
     { action: "Toggle Sidebar", shortcut: "Ctrl+B" },
+    { action: "Open Graph", shortcut: "Ctrl+G" },
   ];
 
   const editorBindings = [

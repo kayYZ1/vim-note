@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Outlet, useLocation } from "react-router";
+import { Outlet, useLocation, useNavigate } from "react-router";
 import { Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-import { useThemeToggle } from "./shared/hooks/use-theme";
 import ToggleTheme from "./components/toggle-theme";
 import SettingsList from "./components/settings-list";
 import CommandSearch from "./components/command-search";
@@ -24,21 +23,8 @@ export default function RootLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isNewNoteOpen, setIsNewNoteOpen] = useState(false);
 
-  const { theme, toggleTheme } = useThemeToggle();
-
   const location = useLocation();
-
-  useEffect(() => {
-    const now = new Date();
-    const hours = now.getHours();
-    const shouldBeDark = hours >= 18 || hours < 6;
-
-    if (shouldBeDark && theme !== "dark") {
-      toggleTheme();
-    } else if (!shouldBeDark && theme !== "light") {
-      toggleTheme();
-    }
-  }, []);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -53,6 +39,10 @@ export default function RootLayout() {
       if (e.key === "m" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         setIsNewNoteOpen((prev) => !prev);
+      }
+      if (e.key === "g" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        navigate("/graph");
       }
       if (e.key === "Escape") {
         setIsCommandSearchOpen(false);

@@ -5,6 +5,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "@/lib/db";
 import { Folder, Note } from "@/lib/interfaces";
 import { useThemeToggle } from "@/shared/hooks/use-theme";
+import { useNavigate } from "react-router";
 
 interface Node extends d3.SimulationNodeDatum {
   id: string;
@@ -20,7 +21,9 @@ interface Link extends d3.SimulationLinkDatum<Node> {
 export default function GraphView() {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
   const { theme } = useThemeToggle();
+  const navigate = useNavigate();
 
   const folders = useLiveQuery(() => db.folders.toArray());
   const notes = useLiveQuery(() => db.notes.toArray());
@@ -162,7 +165,11 @@ export default function GraphView() {
           .attr("r", noteRadius)
           .attr("fill", colors.noteColor)
           .attr("stroke", colors.folderColor)
-          .attr("stroke-width", 1.5);
+          .attr("stroke-width", 1.5)
+          .style("cursor", "pointer")
+          .on("click", (_, d) => {
+            navigate(`/note/${d.id}`);
+          });
 
         g.append("text")
           .text((d) => d.title)
