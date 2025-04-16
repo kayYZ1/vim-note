@@ -119,7 +119,7 @@ export default function EditableNote({ noteId }: { noteId: string }) {
         onClearNote={clearNote}
       >
         <div className="relative w-full">
-          <div className="absolute top-0 right-0 text-xs">
+          <div className="absolute top-0 right-0 text-xs backdrop-blur-sm p-1">
             {isGenerating
               ? "---GENERATING---"
               : isEditing
