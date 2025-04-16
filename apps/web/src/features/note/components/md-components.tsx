@@ -23,7 +23,7 @@ export const mdComponents: Components = {
   ),
   img: ({ src, alt }) => {
     if (src && src.startsWith("/local-image/")) {
-      return <LocalImage src={src} alt={alt || "Local image"}/>;
+      return <LocalImage src={src} alt={alt || "Local image"} />;
     }
     return (
       <img

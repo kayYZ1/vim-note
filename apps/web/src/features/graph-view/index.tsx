@@ -30,7 +30,7 @@ export default function GraphView() {
 
   useEffect(() => {
     if (folders && notes) {
-      createGraph(notes, folders);
+      createGraph(notes, folders); // Improve this
     }
   }, [folders, notes, theme]);
 
@@ -74,7 +74,6 @@ export default function GraphView() {
       });
     });
 
-    // Theme-based colors
     const isDarkTheme = theme === "dark";
 
     const colors = {
@@ -84,17 +83,13 @@ export default function GraphView() {
       noteColor: isDarkTheme ? "#d1d5db" : "#9ca3af",
     };
 
-    // Clear any existing elements
     d3.select(svgRef.current).selectAll("*").remove();
 
-    // Get the fixed dimensions
     const width = containerRef.current.clientWidth;
     const height = containerRef.current.clientHeight;
 
-    // Set SVG dimensions
     d3.select(svgRef.current).attr("width", width).attr("height", height);
 
-    // Create the SVG container with zoom capability
     const svg = d3
       .select(svgRef.current)
       .attr("viewBox", [0, 0, width, height])
@@ -111,17 +106,12 @@ export default function GraphView() {
           }),
       );
 
-    // Create a container for the graph
     const container = svg.append("g");
 
-    // Node sizes (increased)
     const folderSize = 16;
     const noteRadius = 12;
-
-    // Create the force simulation with modified parameters
     const simulation = d3
       .forceSimulation<Node>()
-      // Reduced link distance to bring nodes closer
       .force(
         "link",
         d3
@@ -131,20 +121,17 @@ export default function GraphView() {
       )
       .force("charge", d3.forceManyBody().strength(-100))
       .force("center", d3.forceCenter(width / 2, height / 2))
-      // Adjusted collision radius to match node sizes
       .force("collision", d3.forceCollide().radius(noteRadius * 1.5));
 
-    // Add the links
     const link = container
       .append("g")
       .selectAll("line")
       .data(links)
       .join("line")
       .attr("stroke", colors.linkColor)
-      .attr("stroke-width", 1.5) // Slightly thicker lines
+      .attr("stroke-width", 1.5) 
       .attr("stroke-opacity", 0.6);
 
-    // Add the nodes
     const node = container
       .append("g")
       .selectAll("g")
@@ -177,11 +164,10 @@ export default function GraphView() {
             d.type === "folder" ? folderSize + 4 : noteRadius + 4,
           )
           .attr("y", 4)
-          .attr("font-size", "12px") // Slightly larger text
-          .attr("fill", colors.textColor); // Use theme-aware text color
+          .attr("font-size", "12px") 
+          .attr("fill", colors.textColor); 
       });
 
-    // Update simulation
     simulation.nodes(nodes);
     (simulation.force("link") as d3.ForceLink<Node, Link>).links(links);
 
