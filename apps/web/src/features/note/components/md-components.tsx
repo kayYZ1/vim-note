@@ -23,13 +23,16 @@ export const mdComponents: Components = {
   ),
   img: ({ src, alt }) => {
     if (src && src.startsWith("/local-image/")) {
-      return <LocalImage src={src} alt={alt || ""} />;
+      return <LocalImage src={src} alt={alt || "Local image"}/>;
     }
     return (
       <img
         src={src}
-        alt={alt || ""}
-        className="w-full max-w-full h-auto py-2"
+        alt={alt || "Url image"}
+        loading="lazy"
+        className="w-full max-w-full h-auto py-2 blur-sm transition-all duration-500"
+        onLoad={(e) => e.currentTarget.classList.remove("blur-sm")}
+        onError={(e) => e.currentTarget.classList.remove("blur-sm")}
       />
     );
   },

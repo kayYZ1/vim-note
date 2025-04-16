@@ -57,14 +57,13 @@ export default function RootLayout() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [location.pathname]);
+  }, [location.pathname, navigate]);
 
   return (
     <div
       className="min-h-screen bg-background font-primary"
       onContextMenu={(e) => e.preventDefault()}
     >
-      {/* Header */}
       <header className="px-8 py-4">
         <div className="flex items-center justify-between px-4 py-3">
           <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
@@ -94,7 +93,6 @@ export default function RootLayout() {
           <ToggleTheme />
         </div>
       </header>
-      {/* Main Content */}
       <main className="container mx-auto max-w-4xl">
         <CommandSearch
           isOpen={isCommandSearchOpen}
