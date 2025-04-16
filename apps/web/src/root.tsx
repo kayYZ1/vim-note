@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Outlet, useLocation } from "react-router";
+import { Outlet, useLocation, useNavigate } from "react-router";
 import { Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-import { useThemeToggle } from "./shared/hooks/use-theme";
 import ToggleTheme from "./components/toggle-theme";
 import SettingsList from "./components/settings-list";
 import CommandSearch from "./components/command-search";
@@ -24,21 +23,8 @@ export default function RootLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isNewNoteOpen, setIsNewNoteOpen] = useState(false);
 
-  const { theme, toggleTheme } = useThemeToggle();
-
   const location = useLocation();
-
-  useEffect(() => {
-    const now = new Date();
-    const hours = now.getHours();
-    const shouldBeDark = hours >= 18 || hours < 6;
-
-    if (shouldBeDark && theme !== "dark") {
-      toggleTheme();
-    } else if (!shouldBeDark && theme !== "light") {
-      toggleTheme();
-    }
-  }, []);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -54,6 +40,10 @@ export default function RootLayout() {
         e.preventDefault();
         setIsNewNoteOpen((prev) => !prev);
       }
+      if (e.key === "g" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        navigate("/graph");
+      }
       if (e.key === "Escape") {
         setIsCommandSearchOpen(false);
         setIsNewNoteOpen(false);
@@ -67,14 +57,13 @@ export default function RootLayout() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [location.pathname]);
+  }, [location.pathname, navigate]);
 
   return (
     <div
       className="min-h-screen bg-background font-primary"
       onContextMenu={(e) => e.preventDefault()}
     >
-      {/* Header */}
       <header className="px-8 py-4">
         <div className="flex items-center justify-between px-4 py-3">
           <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
@@ -104,7 +93,6 @@ export default function RootLayout() {
           <ToggleTheme />
         </div>
       </header>
-      {/* Main Content */}
       <main className="container mx-auto max-w-4xl">
         <CommandSearch
           isOpen={isCommandSearchOpen}

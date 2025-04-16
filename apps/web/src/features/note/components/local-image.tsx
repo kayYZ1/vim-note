@@ -14,6 +14,13 @@ export default function LocalImage({ src, alt }: { src: string; alt: string }) {
   }
 
   return (
-    <img src={image.src} alt={alt} className="w-full max-w-full h-auto py-2" />
+    <img
+      src={image.src}
+      loading="lazy"
+      alt={alt}
+      className="w-full max-w-full h-auto py-2 blur-sm transition-all duration-500"
+      onLoad={(e) => e.currentTarget.classList.remove("blur-sm")}
+      onError={(e) => e.currentTarget.classList.remove("blur-sm")}
+    />
   );
 }

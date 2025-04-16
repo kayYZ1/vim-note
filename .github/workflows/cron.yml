@@ -32,4 +32,4 @@ jobs:
             cypress-${{ runner.os }}-
 
       - name: Run Cypress tests
-        run: pnpm cypress:run
+        run: pnpm test:web 
