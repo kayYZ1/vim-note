@@ -7,7 +7,7 @@ import { db } from "@/lib/db";
 export default function LocalImage({ src, alt }: { src: string; alt: string }) {
   const imageId = parseInt(src.replace("/local-image/", ""), 10);
 
-  const image = useLiveQuery(() => db.images.get(imageId));
+  const image = useLiveQuery(() => db.images.get(imageId), [imageId]);
 
   if (!image) {
     return null;
