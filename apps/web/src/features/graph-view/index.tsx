@@ -129,7 +129,7 @@ export default function GraphView() {
       .data(links)
       .join("line")
       .attr("stroke", colors.linkColor)
-      .attr("stroke-width", 1.5) 
+      .attr("stroke-width", 1.5)
       .attr("stroke-opacity", 0.6);
 
     const node = container
@@ -164,8 +164,8 @@ export default function GraphView() {
             d.type === "folder" ? folderSize + 4 : noteRadius + 4,
           )
           .attr("y", 4)
-          .attr("font-size", "12px") 
-          .attr("fill", colors.textColor); 
+          .attr("font-size", "12px")
+          .attr("fill", colors.textColor);
       });
 
     simulation.nodes(nodes);

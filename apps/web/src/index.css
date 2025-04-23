@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
 @import 'tailwindcss';
 
 @plugin 'tailwindcss-animate';
@@ -6,7 +5,16 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-	--font-primary: 'Roboto Slab', 'sans-serif';
+	--font-primary: 'Consolas', 'monospace', 'monospace', 'system-ui', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	--font-secondary: 'Consolas', 'monospace', 'monospace', 'system-ui', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	--font-mono: 'Consolas', 'monospace', 'monospace', 'system-ui', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	--font-sans: 'Consolas', 'monospace', 'monospace', 'system-ui', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	--font-serif: 'Consolas', 'monospace', 'monospace', 'system-ui', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	--font-heading: 'Consolas', 'monospace', 'monospace', 'system-ui', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	--font-display: 'Consolas', 'monospace', 'monospace', 'system-ui', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	--font-code: 'Consolas', 'monospace', 'monospace', 'system-ui', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	--font-mono-code: 'Consolas', 'monospace', 'monospace', 'system-ui', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	--font-mono-sans: 'Consolas', 'monospace', 'monospace', 'system-ui', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 ::-webkit-scrollbar {
