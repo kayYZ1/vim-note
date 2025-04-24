@@ -25,7 +25,7 @@ export async function totalStorageUsed() {
     totalSizeInBytes += noteSizeInBytes;
   }
 
-  const totalSizeInMb = Math.floor(totalSizeInBytes / 2048);
+  const totalSizeInMb = Math.round(totalSizeInBytes / 2048);
 
   return totalSizeInMb;
 }
