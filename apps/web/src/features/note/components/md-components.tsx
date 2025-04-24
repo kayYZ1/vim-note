@@ -29,7 +29,7 @@ export const mdComponents: Components = {
       <img
         src={src}
         alt={alt || "Url image"}
-        loading="lazy"
+        loading="eager"
         className="w-full max-w-full h-auto py-2 blur-sm transition-all duration-500"
         onLoad={(e) => e.currentTarget.classList.remove("blur-sm")}
         onError={(e) => e.currentTarget.classList.remove("blur-sm")}
@@ -37,7 +37,7 @@ export const mdComponents: Components = {
     );
   },
   ul: ({ children }) => <ul className="list-disc px-4">{children}</ul>,
-  ol: ({ children }) => <ol className="list-decimal px-3">{children}</ol>,
+  ol: ({ children }) => <ol className="list-decimal px-6">{children}</ol>,
   li: ({ children }) => <li>{children}</li>,
   code: ({ children }) => <code className="font-mono rounded">{children}</code>,
   pre: ({ children }) => (
