@@ -1,11 +1,10 @@
-import { useEffect, useRef } from "react";
-import * as d3 from "d3";
+import { useEffect, useRef, useMemo } from "react";
+import { useNavigate } from "react-router";
 import { useLiveQuery } from "dexie-react-hooks";
+import * as d3 from "d3";
 
 import { db } from "@/lib/db";
-import { Folder, Note } from "@/lib/interfaces";
-import { useThemeToggle } from "@/shared/hooks/use-theme";
-import { useNavigate } from "react-router";
+import { getCurrentDate } from "@/lib/utils";
 
 interface Node extends d3.SimulationNodeDatum {
   id: string;
@@ -22,31 +21,21 @@ export default function GraphView() {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const { theme } = useThemeToggle();
   const navigate = useNavigate();
-
   const folders = useLiveQuery(() => db.folders.toArray());
   const notes = useLiveQuery(() => db.notes.toArray());
 
-  useEffect(() => {
-    if (folders && notes) {
-      createGraph(notes, folders); // Improve this
-    }
-  }, [folders, notes, theme]);
+  const date = getCurrentDate();
 
-  if (!notes) {
-    return;
-  }
+  const { nodes, links } = useMemo(() => {
+    const nodes: Node[] = [];
+    const links: Link[] = [];
 
-  const nodes: Node[] = [];
-  const links: Link[] = [];
-
-  const createGraph = (notes: Note[], folders?: Folder[]) => {
-    if (!svgRef.current || !containerRef.current) {
-      return;
+    if (!folders || !notes) {
+      return { nodes, links };
     }
 
-    folders?.forEach((folder) => {
+    folders.forEach((folder) => {
       nodes.push({
         id: folder.id,
         title: folder.name,
@@ -61,7 +50,7 @@ export default function GraphView() {
         type: "note",
       });
 
-      folders?.forEach((folder) => {
+      folders.forEach((folder) => {
         const containsNote = folder.notes.some(
           (folderNote) => folderNote.id === note.id,
         );
@@ -74,24 +63,25 @@ export default function GraphView() {
       });
     });
 
-    const isDarkTheme = theme === "dark";
+    return { nodes, links };
+  }, [folders, notes]);
 
-    const colors = {
-      textColor: isDarkTheme ? "#e5e7eb" : "#1f2937",
-      linkColor: isDarkTheme ? "#9ca3af" : "#6b7280",
-      folderColor: isDarkTheme ? "#6b7280" : "#4b5563",
-      noteColor: isDarkTheme ? "#d1d5db" : "#9ca3af",
-    };
+  useEffect(() => {
+    if (!svgRef.current || !containerRef.current || !nodes.length) {
+      return;
+    }
 
-    d3.select(svgRef.current).selectAll("*").remove();
+    const svgElement = svgRef.current;
+
+    d3.select(svgElement).selectAll("*").remove();
 
     const width = containerRef.current.clientWidth;
     const height = containerRef.current.clientHeight;
 
-    d3.select(svgRef.current).attr("width", width).attr("height", height);
+    d3.select(svgElement).attr("width", width).attr("height", height);
 
     const svg = d3
-      .select(svgRef.current)
+      .select(svgElement)
       .attr("viewBox", [0, 0, width, height])
       .call(
         d3
@@ -110,12 +100,13 @@ export default function GraphView() {
 
     const folderSize = 16;
     const noteRadius = 12;
+
     const simulation = d3
-      .forceSimulation<Node>()
+      .forceSimulation<Node>(nodes)
       .force(
         "link",
         d3
-          .forceLink<Node, Link>()
+          .forceLink<Node, Link>(links)
           .id((d) => d.id)
           .distance(50),
       )
@@ -128,7 +119,7 @@ export default function GraphView() {
       .selectAll("line")
       .data(links)
       .join("line")
-      .attr("stroke", colors.linkColor)
+      .attr("stroke", "#9ca3af")
       .attr("stroke-width", 1.5)
       .attr("stroke-opacity", 0.6);
 
@@ -145,13 +136,13 @@ export default function GraphView() {
           .attr("width", folderSize * 2)
           .attr("height", folderSize * 2)
           .attr("rx", 4)
-          .attr("fill", colors.folderColor);
+          .attr("fill", "#4b5563");
 
         g.filter((d) => d.type === "note")
           .append("circle")
           .attr("r", noteRadius)
-          .attr("fill", colors.noteColor)
-          .attr("stroke", colors.folderColor)
+          .attr("fill", "#d1d5db")
+          .attr("stroke", "#374151")
           .attr("stroke-width", 1.5)
           .style("cursor", "pointer")
           .on("click", (_, d) => {
@@ -165,11 +156,8 @@ export default function GraphView() {
           )
           .attr("y", 4)
           .attr("font-size", "12px")
-          .attr("fill", colors.textColor);
+          .attr("fill", "#6b7280");
       });
-
-    simulation.nodes(nodes);
-    (simulation.force("link") as d3.ForceLink<Node, Link>).links(links);
 
     // Update positions on tick
     simulation.on("tick", () => {
@@ -205,30 +193,44 @@ export default function GraphView() {
 
       node.attr("transform", (d) => `translate(${d.x || 0},${d.y || 0})`);
     });
-  };
 
-  const isDarkTheme = theme === "dark";
-  const dotsOnBackground = {
-    backgroundImage: `radial-gradient(circle, ${
-      isDarkTheme ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.1)"
-    } 1px, transparent 1px)`,
-    backgroundSize: "16px 16px",
-  };
+    return () => {
+      simulation.stop();
+      d3.select(svgElement).selectAll("*").remove();
+    };
+  }, [nodes, links, navigate]);
 
   return (
     <div ref={containerRef} className="w-full max-w-none overflow-hidden">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Graph View</h1>
+        <h1 className="font-bold text-muted-foreground">{date}</h1>
       </div>
       <div
-        className="w-full h-[700px] rounded-lg shadow-md border-1"
-        style={dotsOnBackground}
+        className="w-full h-[700px] rounded-sm"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, rgba(128, 128, 128, 0.1) 1px, transparent 1px)",
+          backgroundSize: "16px 16px",
+          boxShadow:
+            "0 4px 24px 0 rgba(0,0,0,0.12), 0 0px 2px 0 rgba(0,0,0,0.08)",
+        }}
       >
-        <svg
-          ref={svgRef}
-          className="w-full h-full"
-          style={{ cursor: "grab" }}
-        />
+        <svg ref={svgRef} className="w-full h-full cursor-grab" />
+      </div>
+      <div className="flex justify-center items-center mt-6 gap-6 text-base">
+        <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 shadow-lg border border-gray-200 dark:border-gray-600">
+          <span className="font-semibold text-primary">Folders</span>
+          <span className="text-lg font-bold text-gray-700 dark:text-gray-200">
+            {folders?.length ?? 0}
+          </span>
+        </div>
+        <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 shadow-lg border border-gray-200 dark:border-gray-600">
+          <span className="font-semibold text-primary">Notes</span>
+          <span className="text-lg font-bold text-gray-700 dark:text-gray-200">
+            {notes?.length ?? 0}
+          </span>
+        </div>
       </div>
     </div>
   );

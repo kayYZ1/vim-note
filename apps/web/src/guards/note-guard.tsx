@@ -29,7 +29,7 @@ export default function NoteGuard() {
         const noteId = await db.notes.add({
           id: nanoid(),
           title: "Note title",
-          description: "Loose note description",
+          description: "Note description",
           date: getCurrentDate(),
         });
         localStorage.setItem("lastViewed", JSON.stringify(noteId));

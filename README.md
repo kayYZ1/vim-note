@@ -4,12 +4,25 @@ In memory browser note taking app
 
 ## Why?
 
-To learn how to integrate AI into markdown files.
-It also uses a turborepo for some reason
+To learn more about markdowns
 
 ## Demo
 
 Newest release can be found [Here](https://vim-note-production.up.railway.app)
+
+## Installation
+
+```bash
+pnpm install # Install dependencies
+```
+
+```bash
+pnpm dev # Run locally
+```
+
+```bash
+pnpm test:web # Run tests
+```
 
 ## Features
 
@@ -21,7 +34,6 @@ Newest release can be found [Here](https://vim-note-production.up.railway.app)
 
 ## Images
 
-![vim-note](./assets/vim-note.png)
+![vim-note](./assets/vim-note-note.png)
 ![vim-note-insert](./assets/vim-note-insert.png)
 ![vim-note-sidebar](./assets/vim-note-sidebar.png)
-![vim-note-settings](./assets/vim-keyboard.png)
