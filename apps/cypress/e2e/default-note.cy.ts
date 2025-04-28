@@ -7,11 +7,11 @@ describe("Test default note rendering after app opening", () => {
     cy.url().should("match", /\/note\/[A-Za-z0-9_-]{21}$/);
   });
 
-  it("should toggle the theme switch button to dark", () => {
+  it("should toggle the theme switch button to light", () => {
     cy.clearAllLocalStorage();
     cy.get("#theme-toggle").click();
     cy.window().then((win) => {
-      expect(win.localStorage.getItem("theme")).to.equal("dark");
+      expect(win.localStorage.getItem("theme")).to.equal("light");
     });
   });
 
@@ -36,6 +36,6 @@ describe("Test default note rendering after app opening", () => {
   it("should display the h3 description of the note", () => {
     cy.get("h3")
       .should("be.visible")
-      .should("contain", "Loose note description");
+      .should("contain", "Note description");
   });
 });
