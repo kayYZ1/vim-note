@@ -22,9 +22,7 @@ export function useAI() {
     }
 
     setIsGenerating(true);
-    const prompt = `Expand on this: ${originalContent}. Keep it relevant, concise, 
-      and avoid adding labels like "answer" or extra formatting. 
-      Provide the expanded content directly.`;
+    const prompt = `Base your response on ${originalContent} if the text is just a prompt telling you do this something, do it. If it's the content that is already written then simply expand on that topic with context that you have. Avoid adding unnecessary labels or anything just concise and straight to the point response. If you are not sure what to write, just write a short response.`;
     let generatedText = "";
 
     abortRef.current =
