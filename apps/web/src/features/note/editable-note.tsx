@@ -40,15 +40,21 @@ export default function EditableNote({ noteId }: { noteId: string }) {
   });
 
   const handleGenerateAI = () => {
-    const originalContent = content;
-
+    const isPrompt =
+      content.trim().split("\n").length <= 3 && content.length < 200;
     generateContent(
-      originalContent,
-      (generatedText: string) => {
-        setContent(originalContent + "\n\n" + generatedText);
+      content,
+      (generatedText) => {
+        if (isPrompt) {
+          setContent(generatedText);
+        } else {
+          setContent(content + "\n\n" + generatedText);
+        }
       },
-      async (finalGeneratedText: string) => {
-        const finalContent = originalContent + "\n\n" + finalGeneratedText;
+      async (finalGeneratedText) => {
+        const finalContent = isPrompt
+          ? finalGeneratedText
+          : content + "\n\n" + finalGeneratedText;
         setContent(finalContent);
         await saveNote(finalContent);
       },
@@ -66,10 +72,7 @@ export default function EditableNote({ noteId }: { noteId: string }) {
       await new Promise((resolve) => setTimeout(resolve, 50));
     }
 
-    const textArea = textAreaRef.current;
-    const cursorPosition = textArea ? textArea.selectionEnd : content.length;
-
-    const newContent = await handleImageUpload(file, content, cursorPosition);
+    const newContent = await handleImageUpload(file, content);
 
     if (newContent) {
       setContent(newContent);

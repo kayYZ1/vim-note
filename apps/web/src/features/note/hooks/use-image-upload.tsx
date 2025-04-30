@@ -105,10 +105,7 @@ export function useImageUpload({
 
       const imageMarkdown = `![${file.name}](/local-image/${imageId})`;
 
-      const newContent = insertImageAfterContent(
-        content,
-        imageMarkdown,
-      );
+      const newContent = insertImageAfterContent(content, imageMarkdown);
 
       return newContent;
     } catch (error) {
