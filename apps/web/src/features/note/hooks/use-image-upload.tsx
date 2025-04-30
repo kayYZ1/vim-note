@@ -52,17 +52,11 @@ export function useImageUpload({
     });
   };
 
-  // Insert image markdown at cursor position
-  const insertImageAtCursor = (
+  const insertImageAfterContent = (
     content: string,
-    cursorPosition: number,
     imageMarkdown: string,
   ): string => {
-    return (
-      content.substring(0, cursorPosition) +
-      imageMarkdown +
-      content.substring(cursorPosition)
-    );
+    return content + "\n" + imageMarkdown;
   };
 
   // Read file as data URL
@@ -78,7 +72,6 @@ export function useImageUpload({
   const handleImageUpload = async (
     file: File,
     content: string,
-    cursorPosition: number,
   ): Promise<string | null> => {
     if (!file) {
       return null;
@@ -112,9 +105,8 @@ export function useImageUpload({
 
       const imageMarkdown = `![${file.name}](/local-image/${imageId})`;
 
-      const newContent = insertImageAtCursor(
+      const newContent = insertImageAfterContent(
         content,
-        cursorPosition,
         imageMarkdown,
       );
 

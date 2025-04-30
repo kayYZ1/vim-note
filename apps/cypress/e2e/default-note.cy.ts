@@ -34,8 +34,6 @@ describe("Test default note rendering after app opening", () => {
   });
 
   it("should display the h3 description of the note", () => {
-    cy.get("h3")
-      .should("be.visible")
-      .should("contain", "Note description");
+    cy.get("h3").should("be.visible").should("contain", "Note description");
   });
 });
