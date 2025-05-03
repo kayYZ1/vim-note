@@ -115,7 +115,6 @@ export function useImageUpload({
     }
   };
 
-  // Trigger file input programmatically
   const triggerImageUpload = () => {
     fileInputRef.current?.click();
   };

@@ -13,7 +13,6 @@ export function useShortcuts({
   isEditing,
   textAreaRef,
 }: NoteKeyboardShortcutsProps) {
-  // Handle textarea key events
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Escape") {
       e.preventDefault();
@@ -21,7 +20,6 @@ export function useShortcuts({
     }
   };
 
-  // Handle global key events
   useEffect(() => {
     const handleDocumentKeyDown = (e: globalThis.KeyboardEvent) => {
       if (e.target === document.body) {
@@ -39,11 +37,13 @@ export function useShortcuts({
     return () => {
       document.removeEventListener("keydown", handleDocumentKeyDown);
     };
-  }, [onEscape, onInsertMode]);
+  }, [onEscape, onInsertMode, textAreaRef]);
 
   useEffect(() => {
     if (isEditing && textAreaRef.current) {
-      textAreaRef.current.focus();
+      const textarea = textAreaRef.current;
+      textarea.focus();
+      textarea.selectionStart = textarea.selectionEnd - textarea.value.length;
     }
   }, [isEditing, textAreaRef]);
 
