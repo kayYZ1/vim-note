@@ -6,7 +6,6 @@ export const streamLLMResponse = (
   onComplete?: () => void,
 ) => {
   const API_KEY = import.meta.env.VITE_OPEN_ROUTER;
-  console.log("PROD API KEY TEST", API_KEY);
   const MODEL_ID = localStorage.getItem("model") || "None";
 
   if (MODEL_ID === "None") {
