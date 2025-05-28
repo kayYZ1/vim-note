@@ -22,7 +22,13 @@ export function useAI() {
     }
 
     setIsGenerating(true);
-    const prompt = `Base your response on ${originalContent} if the text is just a prompt telling you do this something, do it. If it's the content that is already written then simply expand on that topic with context that you have. Avoid adding unnecessary labels or anything just concise and straight to the point response. If you are not sure what to write, just write a short response.`;
+    const prompt = `Given the input text: "${originalContent}", do the following:
+    - If the text is a directive (i.e., a prompt telling you to do something), respond accordingly.
+    - If the text is content or a topic, expand on it concisely using relevant context.
+    - Do not include labels, headings, or framing; only output the response.
+    - Do not repeat the original content.
+    - Avoid filler words or generic statements.
+    `;
     let generatedText = "";
 
     abortRef.current =
